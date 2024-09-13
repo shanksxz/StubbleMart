@@ -1,12 +1,12 @@
+import Navbar from "@/components/Navbar";
+import { Provider } from "@/providers";
 import "@/styles/globals.css";
 import { type Metadata } from "next";
-
 import { Raleway } from "next/font/google";
 
-
 const raleway = Raleway({
-    subsets: ['latin'],
-    variable: "--font-raleway",
+  subsets: ['latin'],
+  variable: "--font-raleway",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +20,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${raleway.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Provider>
+          <Navbar />
+          {children}
+        </Provider>
+      </body>
     </html>
   );
 }
