@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import { Provider } from "@/providers";
 import "@/styles/globals.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { type Metadata } from "next";
 import { Raleway } from "next/font/google";
 
@@ -22,7 +24,6 @@ export default function RootLayout({
     <html lang="en" className={`${raleway.variable}`}>
       <body>
         <Provider>
-          <Navbar />
           {children}
         </Provider>
       </body>
