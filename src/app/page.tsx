@@ -1,5 +1,6 @@
 import Main from "@/components/Main";
 import Navbar from "@/components/Navbar";
+import Link from "next/link";
 // import getServerSession from "@/server/getServerSession";
 
 export default async function Page() {
@@ -14,9 +15,14 @@ export default async function Page() {
     //   <h1>Dashboard</h1>
     //   <p>Welcome {session.user.email}</p>
     // </div>
-    <>
-      <Navbar />
-      <Main />
-    </>
+    // <>
+    //   <Main />
+    // </>
+    <Link
+      href={"/products"}
+      className="text-blue-500 hover:text-blue-700 underline"
+    >
+      Navigate to Products
+    </Link>
   );
 }

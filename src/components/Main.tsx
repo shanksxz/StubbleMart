@@ -5,13 +5,14 @@ import SearchBar from "./SearchBar";
 import Link from "next/link";
 
 interface StubbleCardProps {
+    id: number;
     imageUrl: string;
     title: string;
     description: string;
     price: string;
 }
 
-function StubbleCard({ imageUrl, title, description, price }: StubbleCardProps) {
+function StubbleCard({ imageUrl, title, description, price, id }: StubbleCardProps) {
     return (
         <div className="font-raleway p-2 text-white flex justify-center items-center">
             <div className="bg-white rounded-sm shadow-lg overflow-hidden max-w-sm">
@@ -47,36 +48,42 @@ function StubbleCard({ imageUrl, title, description, price }: StubbleCardProps) 
 export default function Main() {
     const stubbleData = [
         {
+            id: 1,
             imageUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
             title: "Dew Stubble",
             description: "Lorem Ipsum Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum",
             price: "28.95"
         },
         {
+            id: 2,
             imageUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
             title: "Wheat Stubble",
             description: "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             price: "32.50"
         },
         {
+            id: 3,
             imageUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
             title: "Rice Stubble",
             description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
             price: "25.75"
         },
         {
+            id: 4,
             imageUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
             title: "Corn Stubble",
             description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
             price: "30.20"
         },
         {
+            id: 5,
             imageUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
             title: "Rice Stubble",
             description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
             price: "25.75"
         },
         {
+            id: 6,
             imageUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
             title: "Corn Stubble",
             description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
@@ -100,7 +107,9 @@ export default function Main() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {stubbleData.map((stubble, index) => (
-                        <StubbleCard key={index} {...stubble} />
+                        <Link href={`/products/${stubble.id}`} key={index}>
+                            <StubbleCard key={index} {...stubble} />
+                        </Link>
                     ))}
                 </div>
             </div>
