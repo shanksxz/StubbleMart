@@ -2,9 +2,22 @@
 
 import { db } from "@/server/db/db";
 import { OrderData, orderSchema, ZodError } from "src/validators";
+import { getCurrUser } from "./user";
 
 export async function placeOrder(foo: OrderData) {
+    
     try {
+
+        const foo = await getCurrUser();
+
+        if(!foo.success) {
+            return {
+                success: false,
+                message: foo.message,
+                statusCode: 404,
+            };
+        }
+
         const {
             userEmail,
             productId,
@@ -15,17 +28,16 @@ export async function placeOrder(foo: OrderData) {
         } = orderSchema.parse(foo);
 
         const order = await db.order.create({
-            data: {
-                userEmail,
-                productId,
-                state,
+            data : {
                 city,
                 landSize,
+                productId,
                 serviceType,
-            },
+                state,
+                userEmail,
+                userId : foo.user?.id as string,
+            }
         });
-
-        console.log(order);
 
         if (!order) {
             return {
@@ -58,4 +70,47 @@ export async function placeOrder(foo: OrderData) {
             statusCode: 500,
         };
     }   
+}
+
+export async function delOrder(id: string) {
+    try {
+
+        const foo = await getCurrUser();
+
+        if(!foo.success) {
+            return {
+                success: false,
+                message: foo.message,
+                statusCode: 404,
+            };
+        }
+
+        const order = await db.order.delete({
+            where: {
+                id,
+            },
+        });
+
+        if (!order) {
+            return {
+                success: false,
+                message: "Order could not be deleted. Please try again later.",
+                statusCode: 500,
+            };
+        }
+
+        return {
+            success: true,
+            message: "Order deleted successfully.",
+            statusCode: 200,
+        };
+    } catch (error) {
+        console.error(error);
+
+        return {
+            success: false,
+            message: "Something went wrong. Please try again later.",
+            statusCode: 500,
+        };
+    }
 }
