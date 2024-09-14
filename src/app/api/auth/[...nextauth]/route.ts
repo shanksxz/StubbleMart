@@ -2,7 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth, { AuthOptions, DefaultSession } from "next-auth";
 import { decode, encode } from "next-auth/jwt";
 import { db as prisma } from "@/server/db/db";
 import { Prisma } from "@prisma/client";
@@ -22,6 +22,7 @@ const loginSchema = z.object({
     .min(6, "Password must be at least 6 characters")
     .default(""),
 });
+
 
 
 interface Context {
@@ -70,6 +71,7 @@ export const authOptionsWrapper = (request: NextRequest, context: Context) => {
                   accounts: true,
                 },
               });
+
 
               if (!user) {
                 throw new Error("User account does not exist");
