@@ -36,3 +36,12 @@ export const progress = [
     { id: 3, tile: "Reduction in local polution", number: 100 },
 
 ]
+
+export const collaborators = [
+    { id: 1, url: "/svg/c1.svg" },
+    { id: 2, url: "/svg/c2.svg" },
+    { id: 3, url: "/svg/c3.svg" },
+    { id: 4, url: "/svg/c4.svg" },
+
+]
+
