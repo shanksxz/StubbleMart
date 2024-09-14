@@ -1,7 +1,11 @@
-import Main from "@/components/Main";
+import { getAllProducts } from "@/actions/product";
+import Product from "@/components/Product";
 
-export default function Page() {
+export default async function Page() {
+
+    const products = await getAllProducts();
+
     return (
-        <Main />
+        <Product products={products.products!} />
     )
 }
