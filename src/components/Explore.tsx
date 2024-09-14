@@ -1,4 +1,4 @@
-import { details } from "@/utils";
+import { details } from "src/utils";
 import Image from "next/image";
 
 export default function Explore() {

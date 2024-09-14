@@ -1,6 +1,6 @@
 "use client"
 
-import { popular } from "@/utils";
+import { popular } from "src/utils";
 import Slider from "react-slick";
 import PopularCards from "./PopularCards";
 
