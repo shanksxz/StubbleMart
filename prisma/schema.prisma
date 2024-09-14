@@ -7,6 +7,57 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  password      String?   @db.Text
+  address       String?   @db.Text
+  phoneNumber   String?   @map("phone_number")
+  role          Role      @default(USER)
+  accounts      Account[]
+  sessions      Session[]
+  orders        Order[]
+  collaborationPartner CollaborationPartner?
+  @@map("users")
+}
+
+model Product {
+  id          String     @id @default(cuid())
+  imgUrl      String     @map("image_url")
+  title       String
+  description String     @db.Text
+  priceRange  String
+  orderItems  OrderItem[]
+  @@map("products")
+}
+
+model Order {
+  id          String     @id @default(cuid())
+  userId      String
+  state       String
+  city        String
+  landSize    String
+  serviceType String[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  user        User       @relation(fields: [userId], references: [id])
+  orderItems  OrderItem[]
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+  @@map("order_items")
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String  @map("user_id")
@@ -34,21 +85,6 @@ model Session {
   @@map("sessions")
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  password      String?   @db.Text
-  address       String?   @db.Text
-  phoneNumber   String?   @map("phone_number")
-  role          Role      @default(USER)
-  accounts      Account[]
-  sessions      Session[]
-  @@map("users")
-}
-
 enum Role {
   USER
   ADMIN
@@ -62,49 +98,29 @@ model VerificationToken {
   @@map("verificationtokens")
 }
 
-model Product {
-  id          String  @id @default(cuid())
-  imgUrl      String  @map("image_url")
-  title       String
-  description String  @db.Text
-  price       Decimal @db.Decimal(10, 2)
-  @@map("products")
-}
-
 model CollaborationPartner {
-  id                 String  @id @default(cuid())
+  id                 String             @id @default(cuid())
   collaborationType  CollaborationType
-  username           String  @unique
-  companyName        String  @map("company_name")
-  email              String  @unique
-  phoneNumber        String? @map("phone_number")
-  companyAddress     String  @map("company_address") @db.Text
-  companyDescription String? @map("company_description") @db.Text
-  query              String? @db.Text
+  username           String             @unique
+  companyName        String             @map("company_name")
+  email              String             @unique
+  phoneNumber        String?            @map("phone_number")
+  companyAddress     String             @map("company_address") @db.Text
+  companyDescription String?            @map("company_description") @db.Text
+  query              String?            @db.Text
   crops              Crop[]
+  userId             String             @unique
+  user               User               @relation(fields: [userId], references: [id])
+  isApproved         Boolean            @default(false)
   @@map("collaboration_partners")
 }
 
 model Crop {
-  id              String @id @default(cuid())
-  cropName        String
-  priceRangeFrom  Decimal @db.Decimal(10, 2)
-  priceRangeTo    Decimal @db.Decimal(10, 2)
-  partnerId       String
-  partner         CollaborationPartner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
-}
-
-model Order {
-  id          String   @id @default(cuid())
-  userEmail   String
-  productId   String
-  state       String
-  city        String
-  landSize    String
-  serviceType String[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  @@map("orders")
+  id             String               @id @default(cuid())
+  cropName       String
+  priceRange      String          
+  partnerId      String
+  partner        CollaborationPartner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
 }
 
 enum CollaborationType {
