@@ -1,15 +1,60 @@
 "use client"
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronDown, Mail } from 'lucide-react'
+import { Button } from "src/components/ui/button"
+import { Input } from "src/components/ui/input"
+import { Label } from "src/components/ui/label"
+import { useState } from 'react'
+import { registerUser } from 'src/actions/user'
+import { toast } from 'sonner'
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
 
 export default function SignupPage() {
+
+   const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+        phoneNumber: '',
+        address: ''
+    })
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value
+        }))
+    }
+
+    const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        try {
+
+            console.log("formData", formData)
+
+            const res = await registerUser({
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+                phoneNumber: formData.phoneNumber,
+                address: formData.address
+            })
+
+            console.log("res", res)
+
+            if(res.success) {
+                toast.success(res.message)
+                console.log(res.user)
+            }
+
+        } catch (error) {
+            toast.error('An error occurred. Please try again.')
+            console.error(error)
+        }
+    }
+
     return (
         <div className="h-screen flex flex-col md:flex-row font-raleway">
             <motion.div
@@ -22,31 +67,67 @@ export default function SignupPage() {
                     <h2 className="text-3xl font-semibold mb-8 text-green-700">
                         Sign Up
                     </h2>
-                    <form className="space-y-6">
-                        <div>
-                            <Label htmlFor="name" className="text-lg">Full Name</Label>
-                            <Input id="name" type="text" placeholder="John Doe" className="mt-1 h-12" />
-                        </div>
-                        <div>
-                            <Label htmlFor="email" className="text-lg">Email</Label>
-                            <Input id="email" type="email" placeholder="you@example.com" className="mt-1 h-12" />
+                    <form className="space-y-6" onSubmit={handleRegister}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <Label htmlFor="name" className="text-lg">Name</Label>
+                                <Input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    placeholder="John Doe"
+                                    className="mt-1 h-12"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div>
+                                <Label htmlFor="email" className="text-lg">Email</Label>
+                                <Input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="you@example.com"
+                                    className="mt-1 h-12"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
                         </div>
                         <div>
                             <Label htmlFor="password" className="text-lg">Password</Label>
-                            <Input id="password" type="password" className="mt-1 h-12" />
+                            <Input
+                                id="password"
+                                name="password"
+                                type="password"
+                                className="mt-1 h-12"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                            />
                         </div>
                         <div>
-                            <Label htmlFor="confirm-password" className="text-lg">Confirm Password</Label>
-                            <Input id="confirm-password" type="password" className="mt-1 h-12" />
+                            <Label htmlFor="phoneNumber" className="text-lg">Phone Number</Label>
+                            <Input
+                                id="phoneNumber"
+                                name="phoneNumber"
+                                type="tel"
+                                className="h-12"
+                                value={formData.phoneNumber}
+                                onChange={handleInputChange}
+                            />
                         </div>
                         <div>
-                            <Label htmlFor="dob" className="text-lg">Date of Birth</Label>
-                            <div className="relative mt-1">
-                                <Input id="dob" type="date" className="h-12" />
-                                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                            </div>
+                            <Label htmlFor="address" className="text-lg">Address</Label>
+                            <Input
+                                id="address"
+                                name="address"
+                                type="text"
+                                className="h-12"
+                                value={formData.address}
+                                onChange={handleInputChange}
+                            />
                         </div>
-                        <Button className="w-full bg-green-600 hover:bg-green-700 text-white h-12 text-lg flex items-center justify-center gap-2">
+                        <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white h-12 text-lg flex items-center justify-center gap-2">
                             <Mail className="w-5 h-5" />
                             Sign Up with Email
                         </Button>

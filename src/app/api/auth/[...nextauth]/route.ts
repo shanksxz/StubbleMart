@@ -4,7 +4,7 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import NextAuth, { AuthOptions } from "next-auth";
 import { decode, encode } from "next-auth/jwt";
-import { db as prisma } from "@/server/db";
+import { db as prisma } from "@/server/db/db";
 import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
@@ -12,7 +12,7 @@ import { randomUUID } from "crypto";
 import bcrypt from "bcrypt";
 
 import { z } from "zod";
-import { env } from "@/env";
+import { env } from "src/env";
 
 
 const loginSchema = z.object({
@@ -52,6 +52,8 @@ export const authOptionsWrapper = (request: NextRequest, context: Context) => {
           },
           authorize: async (credentials) => {
             try {
+              console.log("credentials => ", credentials);
+
               const result = await loginSchema.safeParseAsync(credentials);
 
               if (!result.success) {

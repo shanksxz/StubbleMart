@@ -1,12 +1,11 @@
-import Collaboration from "@/components/Collaboration";
-import Empowering from "@/components/Empowering";
-import Explore from "@/components/Explore";
-import Extras from "@/components/Extras";
-import Hero from "@/components/Hero";
-import Main from "@/components/Main";
-import Navbar from "@/components/Navbar";
-import Popular from "@/components/Popular";
-import Services from "@/components/Services";
+import Collaboration from "src/components/Collaboration";
+import Empowering from "src/components/Empowering";
+import Explore from "src/components/Explore";
+import Extras from "src/components/Extras";
+import Hero from "src/components/Hero";
+import Navbar from "src/components/Navbar";
+import Popular from "src/components/Popular";
+import Services from "src/components/Services";
 import Link from "next/link";
 // import getServerSession from "@/server/getServerSession";
 
@@ -26,10 +25,6 @@ export default function Home() {
       <Services></Services>
       <Extras></Extras>
       <Empowering></Empowering>
-
     </div>
-
-
-
   );
 }
