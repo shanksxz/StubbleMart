@@ -1,6 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
-const bcrypt = require('bcrypt');
-
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt"
 const prisma = new PrismaClient();
 
 async function main() {
@@ -161,7 +160,7 @@ async function main() {
   const order1 = await prisma.order.create({
     data: {
       userEmail: 'farmer@example.com',
-      productId: 1,
+      productId: "1",
       state: 'Haryana',
       city: 'Ambala',
       landSize: '5 acres',
