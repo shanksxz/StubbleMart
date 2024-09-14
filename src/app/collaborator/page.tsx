@@ -10,16 +10,17 @@ import { Button } from "src/components/ui/button"
 import { Input } from "src/components/ui/input"
 import { Label } from "src/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "src/components/ui/select"
-import { useSession } from 'next-auth/react';
 import { collaborationOptions, FormData, formSchema, stepTitles } from '@/validators'
 import addCollaborators from '@/actions/collaborator'
 import { toast } from 'sonner'
+import { getCurrUser } from '@/actions/user'
+import { useRouter } from 'next/navigation'
 
 
 
 export default function EnhancedCollaborationForm() {
-    const { data: sessionData } = useSession();
     const [step, setStep] = useState(1)
+    const router = useRouter()
 
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
@@ -43,10 +44,21 @@ export default function EnhancedCollaborationForm() {
     });
 
     useEffect(() => {
-        if (sessionData?.user) {
-            form.setValue("username", sessionData.user.name!);
-            form.setValue("email", sessionData.user.email!);
-        }
+        const userData = async () => {
+            try {
+                const res = await getCurrUser();
+                console.log(res);
+                if(res.success) {
+                    form.setValue("username", res.user?.name!);
+                    form.setValue("email", res.user?.email!);
+                    form.setValue("phoneNumber", res.user?.phoneNumber!);
+                }
+            } catch (error) {
+                
+            }
+        };
+
+        userData();
     }, [])
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
@@ -64,6 +76,8 @@ export default function EnhancedCollaborationForm() {
             if(res.success) {
                 toast.success(res.message);
                 console.log(res.collaborater);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                router.push("/");
             }
         } catch (error) {
             toast.error('An error occurred. Please try again.');
@@ -84,7 +98,7 @@ export default function EnhancedCollaborationForm() {
     };
 
     return (
-        <div className="min-h-screen font-raleway bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
+        <div className="min-h-screen font-raleway flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-4xl transition-all duration-300 ease-in-out transform hover:scale-[1.02]">
                 <h1 className="text-4xl font-extrabold text-center text-emerald-700 mb-2 tracking-tight">Collaborate with Us</h1>
                 <p className="text-center text-gray-600 mb-8 text-lg">Join our network and grow your business with us</p>
@@ -93,7 +107,7 @@ export default function EnhancedCollaborationForm() {
                     <div className="flex justify-between">
                         {stepTitles.map((title, index) => (
                             <div key={index} className="flex flex-col items-center relative z-10">
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${step > index ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-600'
+                                <div className={`w-12 h-12 flex items-center justify-center ${step > index ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-600'
                                     } mb-2 transition-all duration-300 ease-in-out transform ${step === index + 1 ? 'scale-110 ring-4 ring-emerald-200' : ''
                                     }`}>
                                     {step > index ? <Check className="w-6 h-6" /> : index + 1}
@@ -160,11 +174,11 @@ export default function EnhancedCollaborationForm() {
                                             Next
                                         </Button>
                                     </div>
-                                    <div className="flex flex-col justify-center items-center text-center">
+                                    <div className="flex flex-col justify-center h-full items-center text-center">
                                         <p className="text-gray-600 mb-6 text-lg leading-relaxed">
                                             Collaborate with us and be part of a growing network of businesses. Together, we can achieve more and create sustainable solutions for the agriculture industry.
                                         </p>
-                                        <img src={img.src} alt="Collaboration" className="rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-110" />
+                                        <img src={img.src} alt="Collaboration" className="rounded-sm h-full shadow-lg transition-all object-cover duration-300 ease-in-out transform hover:scale-110" />
                                     </div>
                                 </div>
                             )}
