@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@/server/db";
-import { OrderData, orderSchema, ZodError } from "@/validators";
+import { db } from "@/server/db/db";
+import { OrderData, orderSchema, ZodError } from "src/validators";
 
 export async function placeOrder(foo: OrderData) {
     try {
@@ -25,6 +25,8 @@ export async function placeOrder(foo: OrderData) {
             },
         });
 
+        console.log(order);
+
         if (!order) {
             return {
                 success: false,
@@ -47,6 +49,8 @@ export async function placeOrder(foo: OrderData) {
                 statusCode: 400,
             };
         }
+
+        console.error(error);
 
         return {
             success: false,

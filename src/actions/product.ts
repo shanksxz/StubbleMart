@@ -2,8 +2,8 @@
 
 "use server"
 
-import { db } from "@/server/db";
-import { ProductData, productSchema, ZodError } from "@/validators";
+import { db } from "@/server/db/db";
+import { ProductData, productSchema, ZodError } from "src/validators";
 
 export async function createProduct(data: ProductData) {
     try {
@@ -49,13 +49,13 @@ export async function getAllProducts() {
     }
 }
 
-export async function getProductById(data: { id: string }) {
+export async function getProductById({ id } : {
+    id: string
+}) {
     try {
 
-        
-
         const product = await db.product.findUnique({
-            where: { id : data.id },
+            where: { id },
         });
 
         if (!product) {
