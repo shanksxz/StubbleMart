@@ -3,7 +3,9 @@ export const navlinks = [
     { id: 2, name: "About", url: "/about" },
     { id: 3, name: "Services", url: "/services" },
     { id: 4, name: "Collaborate", url: "/collaborator" },
-    { id: 5, name: "News", url: "/news" }
+
+    { id: 5, name: "News", url: "/news" },
+    { id: 6, name: "Products", url: "/products" },
 ]
 
 export const details = [
