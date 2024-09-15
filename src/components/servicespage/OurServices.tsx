@@ -8,7 +8,7 @@ export default function OurServices() {
                 <Image src="/svg/green.svg" alt="fda" width={100} height={100}></Image>
                 <h2 className=' text-[25px] font-normal'>Our Services</h2>
                 <h3 className=' font-bold text-[40px]'>What We Offer</h3>
-                <div className='grid grid-rows-1 grid-cols-3 gap-12 w-full'>
+                <div className='grid grid-row-3 grid-cols-1 sm:grid-rows-1 sm:grid-cols-3 gap-12 w-full'>
                     {service.map((el) => (
                         <ServiceCard key={el.id} el={el}></ServiceCard>
 

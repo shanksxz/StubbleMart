@@ -6,6 +6,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
         <div className="font-raleway">
             <Navbar></Navbar>
             {children}
+            <Footer></Footer>
         </div>
     )
 }

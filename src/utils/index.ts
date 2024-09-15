@@ -57,9 +57,9 @@ export const support = [
         id: 1, img: "/svg/trans1.svg", head: "Moving You Forward, Mile by Mile.", head2: "Transportion", desc: "We are dedicated to cultivating the land with an unwavering commitment to the well-being of the people, the soil, our customers, and the environment. Our ongoing research shows promising signs as we evaluate carbon sequestration opportunities and other efforts toward reducing our environmental impact."
     },
     {
-        id: 1, img: "/svg/trans2.svg", head: "Cutting Edge Expertise,Crafted to Perfection.", head2: "Cutting Service", desc: "We are dedicated to cultivating the land with an unwavering commitment to the well-being of the people, the soil, our customers, and the environment. Our ongoing research shows promising signs as we evaluate carbon sequestration opportunities and other efforts toward reducing our environmental impact."
+        id: 2, img: "/svg/trans2.svg", head: "Cutting Edge Expertise,Crafted to Perfection.", head2: "Cutting Service", desc: "We are dedicated to cultivating the land with an unwavering commitment to the well-being of the people, the soil, our customers, and the environment. Our ongoing research shows promising signs as we evaluate carbon sequestration opportunities and other efforts toward reducing our environmental impact."
     },
     {
-        id: 1, img: "/svg/trans3.svg", head: "Heavy-Duty Solutions, Hassle-Free Rentals.", head2: "Machine Rental", desc: "We are dedicated to cultivating the land with an unwavering commitment to the well-being of the people, the soil, our customers, and the environment. Our ongoing research shows promising signs as we evaluate carbon sequestration opportunities and other efforts toward reducing our environmental impact."
+        id: 3, img: "/svg/trans3.svg", head: "Heavy-Duty Solutions, Hassle-Free Rentals.", head2: "Machine Rental", desc: "We are dedicated to cultivating the land with an unwavering commitment to the well-being of the people, the soil, our customers, and the environment. Our ongoing research shows promising signs as we evaluate carbon sequestration opportunities and other efforts toward reducing our environmental impact."
     },
 ]

@@ -50,17 +50,19 @@ export default function Navbar() {
                     </Button>
                 </div>
                 <button className="md:hidden" onClick={toggleMenu}>
-                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    {isMenuOpen ? <X color='black' size={24} /> : <Menu color='black' size={24} />}
                 </button>
             </nav>
             {isMenuOpen && (
                 <div className="md:hidden mt-4">
-                    <ul className='font-normal flex flex-col gap-4'>
-                        <li>Home</li>
-                        <li>About</li>
-                        <li>Services</li>
-                        <li>Collaborate</li>
-                        <li>News</li>
+                    <ul className='font-normal flex flex-col gap-4 '>
+                        {navlinks.map(link => (
+                            <motion.li initial={"close"} whileHover={"open"} className='flex flex-col gap-1 max-w-fit overflow-hidden text-black font-medium relative'>
+                                <Link href={link.url}>{link.name}</Link>
+                                <motion.div variants={settings} className='w-full bg-primary-green h-[2px] absolute bottom-0 mt-6'></motion.div>
+                            </motion.li>
+
+                        ))}
                     </ul>
                     <div className="flex flex-col gap-4 mt-4">
                         {!session.data?.user?.email &&
