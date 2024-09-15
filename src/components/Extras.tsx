@@ -5,14 +5,13 @@ import Image from 'next/image'
 export default function Extras() {
     return (
         <div className='w-full'>
-            <div className='w-[93%] mx-auto py-[120px] flex justify-between'>
+            <div className='w-[85%] sm:w-[93%] mx-auto flex-col sm:flex-row py-[30px] sm:py-[120px] flex justify-between gap-8 sm:gap-0'>
                 {extra.map(item => (
-                    <div key={item.id} className='flex flex-col items-center justify-center font-raleway relative overflow-hidden text-white font-bold text-[25px]'>
-                        <div className='relative w-[602px] h-[289px]'>
-                            <Image src={item.img} alt={item.name} fill objectFit='cover'></Image>
+                    <div key={item.id} className='flex flex-col items-center justify-center font-raleway relative overflow-hidden text-white font-bold  text-[20px] sm:text-[25px]'>
+                        <div className='relative w-[350px] h-[200px] sm:w-[602px] sm:h-[289px] rounded-lg'>
+                            <Image src={item.img} alt={item.name} fill objectFit='contain'></Image>
                         </div>
-                        <div className='absolute bg-black opacity-65 w-full z-[3] h-full rounded-[20px]'></div>
-                        <p className='absolute z-[5]'>{item.name}</p>
+                        <p className='absolute z-[5] text-center sm:text-start px-5'>{item.name}</p>
 
                     </div>
                 ))}

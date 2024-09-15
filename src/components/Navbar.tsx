@@ -8,6 +8,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import { motion } from 'framer-motion'
 
 export default function Navbar() {
 
@@ -15,25 +16,32 @@ export default function Navbar() {
     const router = useRouter()
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
     const session = useSession();
+    const settings = {
+        close: { width: 0 },
+        open: { width: 100, transition: { duration: 0.5 } }
+    }
 
-    console.log(session)
 
     return (
-        <header className="bg-primary-gray font-raleway py-4 md:px-20 px-4 text-white">
-            <nav className="flex justify-between items-center">
+        <header className="bg-white font-raleway py-4 md:px-20 px-4 text-white">
+            <nav className="flex justify-between items-center bg-white">
                 <div className=' relative w-[100px] h-[50px]'>
                     <Image src={"/svg/logo.svg"} alt='logo' fill objectFit='cover'></Image>
                 </div>
-                <div className="hidden md:flex items-center space-x-4">
-                    <ul className='font-normal flex gap-4'>
+                <div className="hidden md:flex items-center space-x-4 w-[55%]">
+                    <ul className='font-medium w-full flex justify-between '>
                         {navlinks.map(link => (
-                            <li><Link href={link.url}>{link.name}</Link></li>
+                            <motion.li initial={"close"} whileHover={"open"} className='flex flex-col gap-1 max-w-fit overflow-hidden text-black relative'>
+                                <Link href={link.url}>{link.name}</Link>
+                                <motion.div variants={settings} className='w-full bg-primary-green h-[2px] absolute bottom-0 mt-6'></motion.div>
+                            </motion.li>
+
                         ))}
                     </ul>
                 </div>
                 <div className="flex gap-4">
                     {!session.data?.user?.email &&
-                        <Button className="bg-primary-green px-6 text-black font-semibold" onClick={() => router.push("/login")}>
+                        <Button className="bg-primary-green px-6 text-white hover:bg-white hover:text-black font-semibold" onClick={() => router.push("/login")}>
                             Login
                         </Button>
                     }
