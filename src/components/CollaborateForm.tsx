@@ -26,7 +26,7 @@ export default function EnhancedCollaborationForm() {
         defaultValues: {
             collaborationType: "Stubble purchasing company",
             companyName: "",
-            username: "",
+            name: "",
             email: "",
             phoneNumber: "",
             companyAddress: "",
@@ -44,7 +44,7 @@ export default function EnhancedCollaborationForm() {
 
     useEffect(() => {
         if (sessionData?.user) {
-            form.setValue("username", sessionData.user.name!);
+            form.setValue("name", sessionData.user.name!);
             form.setValue("email", sessionData.user.email!);
         }
     }, [])
@@ -141,7 +141,7 @@ export default function EnhancedCollaborationForm() {
                                                 </SelectContent>
                                             </Select>
                                         </div>
-                                        {(['companyName', 'username', 'email', 'phoneNumber', 'companyAddress'] as const).map((field) => (
+                                        {(['companyName', 'name', 'email', 'phoneNumber', 'companyAddress'] as const).map((field) => (
                                             <div key={field} className="space-y-2">
                                                 <Label htmlFor={field}>
                                                     {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1').trim()}
@@ -169,7 +169,7 @@ export default function EnhancedCollaborationForm() {
                                     <div className="bg-gray-50 p-6 rounded-lg shadow-inner">
                                         <h3 className="font-semibold text-xl mb-4 text-emerald-700">Company Details</h3>
                                         <div className="grid md:grid-cols-2 gap-4 text-sm">
-                                            {(['collaborationType', 'companyName', 'username', 'email', 'phoneNumber', 'companyAddress'] as const).map((field) => (
+                                            {(['collaborationType', 'companyName', 'name', 'email', 'phoneNumber', 'companyAddress'] as const).map((field) => (
                                                 <p key={field} className="flex items-start">
                                                     <span className="font-medium text-gray-700 mr-2">{field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1').trim()}:</span>
                                                     <span className="text-gray-600">{form.watch(field)}</span>

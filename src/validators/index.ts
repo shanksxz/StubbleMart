@@ -33,7 +33,7 @@ export const stepTitles = [
 export const formSchema = z.object({
     collaborationType: z.enum(collaborationOptions),
     companyName: z.string().min(1, "Company name is required"),
-    username: z.string().min(1, "Username is required"),
+    name: z.string().min(1, "Username is required"),
     email: z.string().email("Invalid email address"),
     phoneNumber: z.string().min(10, "Phone number must be at least 10 digits"),
     companyAddress: z.string().min(1, "Company address is required"),
@@ -46,8 +46,26 @@ export const formSchema = z.object({
     })).optional(),
 });
 
+export const signupSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters").default(""),
+  email: z.string().email("Email is invalid").default(""),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .default(""),
+  address: z
+    .string()
+    .min(3, "Address must be at least 3 characters")
+    .default(""),
+  phoneNumber: z
+    .string()
+    .min(11, "Phone number must be at least 11 characters")
+    .default(""),
+  role: z.enum(["FARMER", "COLLABORATOR"]).default("FARMER"),
+});
 
 
+export type SignupFormData = z.infer<typeof signupSchema>;
 export type FormData = z.infer<typeof formSchema>;
 export const ZodError = z.ZodError;
 export type ProductData = z.infer<typeof productSchema>;

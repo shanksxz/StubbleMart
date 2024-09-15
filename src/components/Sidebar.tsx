@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { BarChart3, ShoppingCart, Tractor, Truck, Store, Users, Package, User, X } from "lucide-react"
+import { BarChart3, ShoppingCart, Tractor, Truck, Store, Users, Package, User, X, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function Sidebar({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) {
@@ -28,15 +28,20 @@ export function Sidebar({ open, setOpen }: { open: boolean; setOpen: (open: bool
             <X className="h-6 w-6" />
           </Button>
         </div>
-        <nav className="mt-5">
-          <NavItem href="/dashboard" icon={BarChart3}>Dashboard</NavItem>
-          <NavItem href="/dashboard/collaborator/stubble-purchasing" icon={ShoppingCart}>Stubble Purchasing</NavItem>
-          <NavItem href="/dashboard/collaborator/machine-rental" icon={Tractor}>Machine Rental</NavItem>
-          <NavItem href="/dashboard/collaborator/transportation" icon={Truck}>Transportation</NavItem>
-          <NavItem href="/dashboard/collaborator/agri-shops" icon={Store}>Agriculture Shops</NavItem>
-          <NavItem href="/dashboard/farmers" icon={Users}>Farmers</NavItem>
-          <NavItem href="/dashboard/product" icon={Package}>Products</NavItem>
-          <NavItem href="/admin-profile" icon={User}>Admin Profile</NavItem>
+        <nav className="mt-5 flex flex-col justify-between h-[calc(100vh-80px)]">
+          <div>
+            <NavItem href="/dashboard" icon={BarChart3}>Dashboard</NavItem>
+            <NavItem href="/dashboard/collaborator/stubble-purchasing" icon={ShoppingCart}>Stubble Purchasing</NavItem>
+            <NavItem href="/dashboard/collaborator/machine-rental" icon={Tractor}>Machine Rental</NavItem>
+            <NavItem href="/dashboard/collaborator/transportation" icon={Truck}>Transportation</NavItem>
+            <NavItem href="/dashboard/collaborator/agri-shops" icon={Store}>Agriculture Shops</NavItem>
+            <NavItem href="/dashboard/farmers" icon={Users}>Farmers</NavItem>
+            <NavItem href="/dashboard/product" icon={Package}>Products</NavItem>
+            <NavItem href="/admin-profile" icon={User}>Admin Profile</NavItem>
+          </div>
+          <div>
+            <NavItem href="/dashboard/recycle-bin" icon={Trash}>Recycle Bin</NavItem>
+          </div>
         </nav>
       </div>
     </>
