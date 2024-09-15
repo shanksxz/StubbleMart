@@ -9,7 +9,7 @@ import Image from "next/image";
 
 export default function About() {
     return (
-        <div>
+        <div className=" overflow-x-hidden">
             <Hero></Hero>
             <Explain></Explain>
             <Collaborators></Collaborators>

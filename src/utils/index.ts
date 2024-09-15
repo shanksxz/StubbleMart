@@ -45,3 +45,21 @@ export const collaborators = [
 
 ]
 
+export const service = [
+    { id: 1, tag: "01", name: "Transportation", desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius corporis, dolor autem ex ad debitis nam alias facere enim aperiam, odit beatae architecto omnis fuga sunt? Maxime at repellat nisi!" },
+    { id: 2, tag: "02", name: "Cutting Service", desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius corporis, dolor autem ex ad debitis nam alias facere enim aperiam, odit beatae architecto omnis fuga sunt? Maxime at repellat nisi!" },
+    { id: 3, tag: "03", name: "Machines Rental", desc: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius corporis, dolor autem ex ad debitis nam alias facere enim aperiam, odit beatae architecto omnis fuga sunt? Maxime at repellat nisi!" },
+
+]
+
+export const support = [
+    {
+        id: 1, img: "/svg/trans1.svg", head: "Moving You Forward, Mile by Mile.", head2: "Transportion", desc: "We are dedicated to cultivating the land with an unwavering commitment to the well-being of the people, the soil, our customers, and the environment. Our ongoing research shows promising signs as we evaluate carbon sequestration opportunities and other efforts toward reducing our environmental impact."
+    },
+    {
+        id: 1, img: "/svg/trans2.svg", head: "Cutting Edge Expertise,Crafted to Perfection.", head2: "Cutting Service", desc: "We are dedicated to cultivating the land with an unwavering commitment to the well-being of the people, the soil, our customers, and the environment. Our ongoing research shows promising signs as we evaluate carbon sequestration opportunities and other efforts toward reducing our environmental impact."
+    },
+    {
+        id: 1, img: "/svg/trans3.svg", head: "Heavy-Duty Solutions, Hassle-Free Rentals.", head2: "Machine Rental", desc: "We are dedicated to cultivating the land with an unwavering commitment to the well-being of the people, the soil, our customers, and the environment. Our ongoing research shows promising signs as we evaluate carbon sequestration opportunities and other efforts toward reducing our environmental impact."
+    },
+]
