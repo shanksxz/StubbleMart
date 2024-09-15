@@ -20,9 +20,27 @@ export const popular = [
     { id: 4 },
     { id: 5 },
     { id: 6 },
+    { id: 8 },
+    { id: 9 },
+    { id: 10 },
 ]
 
 export const extra = [
-    { id: 1, name: "Providing Cutting Services & Selling Stubble", img: "/svg/image (5).svg" },
-    { id: 1, name: "Guidance on Residue Management", img: "/svg/image (4).svg" },
+    { id: 1, name: "Providing Cutting Services & Selling Stubble", img: "/svg/Group 27.svg" },
+    { id: 1, name: "Guidance on Residue Management", img: "/svg/Group 31.svg" },
+]
+
+export const progress = [
+    { id: 1, tile: "Farmers Empowered", number: 500 },
+    { id: 2, tile: "Tons of Subtle Saved", number: 200 },
+    { id: 3, tile: "Reduction in local polution", number: 100 },
+
+]
+
+export const collaborators = [
+    { id: 1, url: "/svg/c1.svg" },
+    { id: 2, url: "/svg/c2.svg" },
+    { id: 3, url: "/svg/c3.svg" },
+    { id: 4, url: "/svg/c4.svg" },
+
 ]

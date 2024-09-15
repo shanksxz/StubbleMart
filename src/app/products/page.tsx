@@ -6,6 +6,7 @@ export default async function Page() {
     const products = await getAllProducts();
 
     return (
+        // @ts-ignore
         <Product products={products.products!} />
     )
 }
