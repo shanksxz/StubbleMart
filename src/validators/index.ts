@@ -12,7 +12,7 @@ export const orderSchema = z.object({
 export const productSchema = z.object({
     title: z.string().min(1, "Title is required"),
     imgUrl : z.string().url("Thumbnail must be a valid URL"),
-    price: z.number().positive("Price must be a positive number"),
+    priceRange: z.string().min(1, "Price range is required"),
     description: z.string(),
 });
 

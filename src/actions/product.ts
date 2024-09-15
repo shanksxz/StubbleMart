@@ -4,13 +4,20 @@
 
 import { db } from "@/server/db/db";
 import { ProductData, productSchema, ZodError } from "src/validators";
+import { getCurrUser } from "./user";
 
 export async function createProduct(data: ProductData) {
     try {
+
+        const ress = await getCurrUser();
+
         const validatedData = productSchema.parse(data);
 
         const product = await db.product.create({
-            data: validatedData,
+            data: {
+                ...validatedData,
+                createdBy: ress.user?.id as string,
+            },
         });
 
         return {

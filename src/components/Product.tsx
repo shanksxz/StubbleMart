@@ -2,17 +2,17 @@ import { Button } from "src/components/ui/button"
 import { ArrowLeft } from 'lucide-react'
 import SearchBar from "./SearchBar";
 import Link from "next/link";
-import { Prisma } from "@prisma/client";
 
 interface ProductProps {
-    id: string;
+    id?: string;
     title: string;
     description: string;
-    price: Prisma.Decimal;
+    priceRange: string;
     imgUrl: string;
 }
 
-function StubbleCard({ imgUrl, title, description, price, id }: ProductProps) {
+function StubbleCard({ imgUrl, title, description, priceRange }: ProductProps) {
+    console.log("priceRange", imgUrl)
     return (
         <div className="font-raleway p-2 text-white flex justify-center items-center">
             <div className="bg-white rounded-sm shadow-lg overflow-hidden max-w-sm">
@@ -31,7 +31,9 @@ function StubbleCard({ imgUrl, title, description, price, id }: ProductProps) {
                             variant="outline"
                             className="flex-1 mr-2 border-primary-green text-primary-green hover:bg-primary-green hover:text-white"
                         >
-                            ${new Prisma.Decimal(price).toNumber()}
+                            {/* ${new Prisma.Decimal(price).toNumber()}
+                             */}
+                             ₹{priceRange}
                         </Button>
                         <Button
                             className="flex-1 bg-primary-green text-white hover:bg-primary-green/90"

@@ -9,7 +9,6 @@ import { Input } from "src/components/ui/input"
 import { Checkbox } from "src/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "src/components/ui/radio-group"
 import { Label } from "src/components/ui/label"
-import { Prisma } from '@prisma/client'
 import { getProductById } from '@/actions/product'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -22,7 +21,7 @@ interface StubbleProduct {
   id: string;
   title: string;
   description: string;
-  price: Prisma.Decimal;
+  priceRange: string
   imgUrl: string;
 }
 
@@ -44,6 +43,10 @@ export default function ProductDetails() {
   const [error, setError] = useState<string>("")
   const { data : session } = useSession();
   const router = useRouter()
+
+  if(!session?.user?.email) {
+    router.push("/login")
+  }
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -101,7 +104,7 @@ export default function ProductDetails() {
     <div className="min-h-screen font-raleway py-4 px-4 sm:px-6 lg:px-8">
       <div className="bg-white rounded-sm overflow-hidden max-w-7xl mx-auto">
         <div className="p-6">
-          <Link href="/" className="inline-flex items-center text-gray-500 hover:text-gray-700 mb-4">
+          <Link href="/products" className="inline-flex items-center text-gray-500 hover:text-gray-700 mb-4">
             <ArrowLeft className="h-5 w-5 mr-2" />
             Back to search
           </Link>
@@ -117,7 +120,7 @@ export default function ProductDetails() {
               <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.title}</h1>
               <p className="text-gray-600 mb-4">{product.description}</p>
               <p className="text-2xl font-semibold text-primary-green mb-6">
-                Price Range: ${new Prisma.Decimal(product.price).toNumber()}
+                Price Range: ₹{product.priceRange}
               </p>
               
               <form onSubmit={handleSubmit(onSubmit)}>

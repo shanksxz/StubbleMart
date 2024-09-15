@@ -170,6 +170,9 @@ export const authOptionsWrapper = (request: NextRequest, context: Context) => {
           }
         },
       },
+      pages : {
+        "signIn" : "/login"
+      }
     } as AuthOptions,
   ] as const;
 };

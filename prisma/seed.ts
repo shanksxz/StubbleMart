@@ -52,34 +52,62 @@ async function main() {
   })
 
   // Seed Products
-  const stubbleProducts = await Promise.all(
+ const stubbleProducts = await Promise.all(
     [
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
-        title: "Dew Stubble",
-        description: "Lorem Ipsum Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum",
-        priceRange: "1500-2000",
-        createdBy: adminUser.id,
-      },
-      {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wheat-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
         title: "Wheat Stubble",
-        description: "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        priceRange: "1500-2000",
+        description: "Leftover straw and stalks after wheat harvest, useful for animal bedding or biomass.",
+        priceRange: "1000-2000",
         createdBy: adminUser.id,
       },
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/rice-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
         title: "Rice Stubble",
-        description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        priceRange: "1200-1800",
+        description: "Residual straw from rice plants, can be used as mulch or for mushroom cultivation.",
+        priceRange: "800-2000",
         createdBy: adminUser.id,
       },
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/corn-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
         title: "Corn Stubble",
-        description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        priceRange: "1200-1800",
+        description: "Stalks and leaves remaining after corn harvest, commonly used for livestock feed or biofuel.",
+        priceRange: "1200-2500",
+        createdBy: adminUser.id,
+      },
+      {
+        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/soybean-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        title: "Soybean Stubble",
+        description: "Plant remnants after soybean harvesting, utilized as green manure or soil cover.",
+        priceRange: "1500-2500",
+        createdBy: adminUser.id,
+      },
+      {
+        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/barley-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        title: "Barley Stubble",
+        description: "The straw left after barley harvest, mainly used for animal bedding or as a low-cost feed option.",
+        priceRange: "2000-4500",
+        createdBy: adminUser.id,
+      },
+      {
+        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sugarcane-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        title: "Sugarcane Stubble",
+        description: "Residual cane left after sugarcane cutting, used for mulching or generating bioenergy.",
+        priceRange: "1500-2800",
+        createdBy: adminUser.id,
+      },
+      {
+        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sorghum-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        title: "Sorghum Stubble",
+        description: "The stalks left behind after sorghum is harvested, often used for fodder or silage.",
+        priceRange: "1500-3700",
+        createdBy: adminUser.id,
+      },
+      {
+        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cotton-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        title: "Cotton Stubble",
+        description: "Plant remains after cotton harvesting, usually used in composting or as a biomass fuel source.",
+        priceRange: "1500-3000",
         createdBy: adminUser.id,
       }
     ].map(product =>
@@ -88,7 +116,6 @@ async function main() {
       })
     )
   )
-
   // Create Collaboration Partner Users
   const partnerUsers = await Promise.all([
     prisma.user.create({

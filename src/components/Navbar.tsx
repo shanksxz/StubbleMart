@@ -7,7 +7,7 @@ import { navlinks } from 'src/utils'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { motion } from 'framer-motion'
 
 export default function Navbar() {
@@ -43,6 +43,12 @@ export default function Navbar() {
                     {!session.data?.user?.email &&
                         <Button className="bg-primary-green px-6 text-white hover:bg-white hover:text-black font-semibold" onClick={() => router.push("/login")}>
                             Login
+                        </Button>
+                    }
+                    {
+                        session.data?.user?.email &&
+                        <Button className="bg-primary-green px-6 text-white hover:bg-white hover:text-black font-semibold" onClick={() => signOut()}>
+                            Logout
                         </Button>
                     }
                     <Button className="border px-6 border-primary-green bg-transparent hover:bg-primary-green hover:text-white text-primary-green">
