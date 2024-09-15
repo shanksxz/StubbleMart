@@ -8,18 +8,19 @@ generator client {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  password      String?   @db.Text
-  address       String?   @db.Text
-  phoneNumber   String?   @map("phone_number")
-  role          Role      @default(USER)
-  accounts      Account[]
-  sessions      Session[]
-  orders        Order[]
+  id                  String                @id @default(cuid())
+  name                String?
+  email               String?               @unique
+  emailVerified       DateTime?             @map("email_verified")
+  image               String?
+  password            String?               @db.Text
+  address             String?               @db.Text
+  phoneNumber         String?               @map("phone_number")
+  role                Role                  @default(FARMER)
+  accounts            Account[]
+  sessions            Session[]
+  orders              Order[]               
+  products            Product[]             
   collaborationPartner CollaborationPartner?
   @@map("users")
 }
@@ -30,6 +31,8 @@ model Product {
   title       String
   description String     @db.Text
   priceRange  String
+  createdBy   String     
+  creator     User       @relation(fields: [createdBy], references: [id])
   orderItems  OrderItem[]
   @@map("products")
 }
@@ -86,8 +89,9 @@ model Session {
 }
 
 enum Role {
-  USER
+  FARMER
   ADMIN
+  COLLABORATOR
 }
 
 model VerificationToken {
@@ -101,7 +105,7 @@ model VerificationToken {
 model CollaborationPartner {
   id                 String             @id @default(cuid())
   collaborationType  CollaborationType
-  username           String             @unique
+  name               String             
   companyName        String             @map("company_name")
   email              String             @unique
   phoneNumber        String?            @map("phone_number")
@@ -112,13 +116,16 @@ model CollaborationPartner {
   userId             String             @unique
   user               User               @relation(fields: [userId], references: [id])
   isApproved         Boolean            @default(false)
+  isActive           Boolean            @default(false)
+  isDeleted          Boolean            @default(false)
+  deletedAt          DateTime?          
   @@map("collaboration_partners")
 }
 
 model Crop {
   id             String               @id @default(cuid())
   cropName       String
-  priceRange      String          
+  priceRange     String          
   partnerId      String
   partner        CollaborationPartner @relation(fields: [partnerId], references: [id], onDelete: Cascade)
 }
