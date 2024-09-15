@@ -29,7 +29,7 @@ export default function Navbar() {
                     <Image src={"/svg/logo.svg"} alt='logo' fill objectFit='cover'></Image>
                 </div>
                 <div className="hidden md:flex items-center space-x-4 w-[55%]">
-                    <ul className='font-medium w-full flex justify-between '>
+                    <ul className='font-semibold w-full flex justify-between '>
                         {navlinks.map(link => (
                             <motion.li initial={"close"} whileHover={"open"} className='flex flex-col gap-1 max-w-fit overflow-hidden text-black relative'>
                                 <Link href={link.url}>{link.name}</Link>
@@ -55,7 +55,7 @@ export default function Navbar() {
             </nav>
             {isMenuOpen && (
                 <div className="md:hidden mt-4">
-                    <ul className='font-normal flex flex-col gap-4 '>
+                    <ul className='font-semibold flex flex-col gap-4 '>
                         {navlinks.map(link => (
                             <motion.li initial={"close"} whileHover={"open"} className='flex flex-col gap-1 max-w-fit overflow-hidden text-black font-medium relative'>
                                 <Link href={link.url}>{link.name}</Link>

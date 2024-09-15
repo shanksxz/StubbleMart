@@ -7,7 +7,7 @@ export default function Explain() {
                 <Image src="/svg/st2 1.svg" alt="dlfa" fill objectFit="cover"></Image>
             </div>
             <>
-                <div className="flex flex-col justify-between gap-5 items-center py-[80px] w-[80%] mx-auto">
+                <div className="flex flex-col justify-between gap-5 items-center py-[100px] w-[80%] mx-auto">
                     <h2 className="font-bold text-[35px] text-white text-center sm:text-start">We Our <span className="text-primary-green">Stubble Mart</span></h2>
                     <p className="text-white text-[20px] font-medium text-center sm:text-start">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Inventore, molestias!</p>
                     <div className="flex flex-col sm:flex-row justify-between bg-white p-8 w-[80%]">
