@@ -1,174 +1,219 @@
-"use server"
+"use server";
 
 import { db } from "@/server/db/db";
 import { FormData, ZodError } from "@/validators";
 import { getCurrUser } from "./user";
 import { CollaborationType } from "@prisma/client";
 
+const format = (str: string) => {
+  return str.toUpperCase().split(" ").join("_") as any;
+};
 
-const format = (str : string) => {
-    return str.toUpperCase().split(" ").join("_") as any;
-}
+export default async function addCollaborators(foo: FormData) {
+  try {
+    const res = await getCurrUser();
 
-export default async function addCollaborators(foo : FormData) {
-    try {
-
-        const res = await getCurrUser();
-
-        if(!res.success) {
-            return {
-                success: false,
-                message: res.message,
-                statusCode: 404,
-            };
-        }
-
-        const collaborater = await db.collaborationPartner.create({
-            data : {
-                username : foo.username,
-                email : foo.email,
-                phoneNumber : foo.phoneNumber,
-                companyAddress : foo.companyAddress,
-                companyDescription : foo.companyDescription,
-                collaborationType : format(foo.collaborationType),
-                crops : {
-                    create : [
-                        ...foo!.crops!.map((crop) => ({
-                            cropName : crop.cropName,
-                            priceRange : `${crop.priceRangeFrom}-${crop.priceRangeTo}`
-                        }))
-                    ]
-                },
-                companyName : foo.companyName,
-                userId : res.user?.id as string,
-            }
-        })
-
-        return {
-            success : true,
-            message : "Collaborator added successfully",
-            collaborater,
-        }
-
-    } catch (error) {
-        if(error instanceof ZodError) {
-            return {
-                success: false,
-                message: error.errors[0]?.message,
-            }
-        }
-
-        return {
-            success: false,
-            message: "An error occurred while adding the collaborator.",
-        }
+    if (!res.success) {
+      return {
+        success: false,
+        message: res.message,
+        statusCode: 404,
+      };
     }
+
+    const collaborater = await db.collaborationPartner.create({
+      data: {
+        name: foo.name,
+        email: foo.email,
+        phoneNumber: foo.phoneNumber,
+        companyAddress: foo.companyAddress,
+        companyDescription: foo.companyDescription,
+        collaborationType: format(foo.collaborationType),
+        crops: {
+          create: [
+            ...foo!.crops!.map((crop) => ({
+              cropName: crop.cropName,
+              priceRange: `${crop.priceRangeFrom}-${crop.priceRangeTo}`,
+            })),
+          ],
+        },
+        companyName: foo.companyName,
+        userId: res.user?.id as string,
+      },
+    });
+
+    return {
+      success: true,
+      message: "Collaborator added successfully",
+      collaborater,
+    };
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        success: false,
+        message: error.errors[0]?.message,
+      };
+    }
+
+    return {
+      success: false,
+      message: "An error occurred while adding the collaborator.",
+    };
+  }
 }
 
 export async function getCollaboratorsByCategory({
-    category,
-} : {
-    category : CollaborationType
+  category,
+}: {
+  category: CollaborationType;
 }) {
-    try {
-        const collaborators = await db.collaborationPartner.findMany({
-            where : {
-                collaborationType : category,
-            },
-            include: {
-                crops: true, 
-            }
-        });
-        return {
-            success: true,
-            message : "Collaborators retrieved successfully",
-            collaborators,
-        }
-        
-    } catch (error) {
-        console.error("Error fetching collaborators:", error);
-        return {
-            success: false,
-            message: "An error occurred while retrieving the collaborators.",
-        }
-    }
+  try {
+    const collaborators = await db.collaborationPartner.findMany({
+      where: {
+        collaborationType: category,
+      },
+      include: {
+        crops: true,
+      },
+    });
+    return {
+      success: true,
+      message: "Collaborators retrieved successfully",
+      collaborators,
+    };
+  } catch (error) {
+    console.error("Error fetching collaborators:", error);
+    return {
+      success: false,
+      message: "An error occurred while retrieving the collaborators.",
+    };
+  }
 }
 
-export async function approveCollaborator({
-    id,
-} : {
-    id : string
-}) {
-    try {
+export async function approveCollaborator({ id }: { id: string }) {
+  try {
+    const foo = await getCurrUser();
 
-        const foo = await getCurrUser();
-
-        if(!foo.success) {
-            return {
-                success: false,
-                message: foo.message,
-                statusCode: 404,
-            };
-        }
-
-        const collaborator = await db.collaborationPartner.update({
-            where : {
-                id,
-            },
-            data : {
-                isApproved : true,
-            }
-        });
-
-        console.log(collaborator);
-
-        return {
-            success : true,
-            message : "Collaborator approved successfully",
-            collaborator,
-        }
-
-    } catch (error) {
-        return {
-            success: false,
-            message: "An error occurred while approving the collaborator.",
-        }
+    if (!foo.success) {
+      return {
+        success: false,
+        message: foo.message,
+        statusCode: 404,
+      };
     }
+
+    const collaborator = await db.collaborationPartner.update({
+      where: {
+        id,
+      },
+      data: {
+        isApproved: true,
+      },
+    });
+
+    console.log(collaborator);
+
+    return {
+      success: true,
+      message: "Collaborator approved successfully",
+      collaborator,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "An error occurred while approving the collaborator.",
+    };
+  }
 }
 
-export async function delCollaborator({
-    id,
-} : {
-    id : string
-}) {
-    try {
+export async function delCollaborator({ id }: { id: string }) {
+  try {
+    // const collaborator = await db.collaborationPartner.delete({
+    //     where : {
+    //         id,
+    //     }
+    // });
 
-        const foo = await getCurrUser();
+    const collaborator = await db.collaborationPartner.update({
+      where: {
+        id,
+      },
+      data: {
+        isDeleted: true,
+        deletedAt: new Date(),
+      },
+      select: {
+        id: true,
+        companyName: true,
+        email: true,
+        collaborationType: true,
+        deletedAt: true,
+      },
+    });
 
-        if(!foo.success) {
-            return {
-                success: false,
-                message: foo.message,
-                statusCode: 404,
-            };
-        }
+    return {
+      success: true,
+      message: "Collaborator deleted successfully",
+      collaborator,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "An error occurred while deleting the collaborator.",
+    };
+  }
+}
 
-        const collaborator = await db.collaborationPartner.delete({
-            where : {
-                id,
-            }
-        });
+export async function getDeletedCollaborators() {
+  try {
+    const collaborators = await db.collaborationPartner.findMany({
+      where: {
+        isDeleted: true,
+      },
+    });
 
-        return {
-            success : true,
-            message : "Collaborator deleted successfully",
-            collaborator,
-        }
+    return {
+      success: true,
+      message: "Collaborators retrieved successfully",
+      collaborators,
+    };
+  } catch (error) {
+    console.error("Error fetching collaborators:", error);
+    return {
+      success: false,
+      message: "An error occurred while retrieving the collaborators.",
+    };
+  }
+}
 
-    } catch (error) {
-        return {
-            success: false,
-            message: "An error occurred while deleting the collaborator.",
-        }
-    }
+export async function restoreCollaborator({ id }: { id: string }) {
+  try {
+    const collaborator = await db.collaborationPartner.update({
+      where: {
+        id,
+      },
+      data: {
+        isDeleted: false,
+        deletedAt: null,
+      },
+      select: {
+        id: true,
+        companyName: true,
+        email: true,
+        collaborationType: true,
+        deletedAt: true,
+      },
+    });
+
+    return {
+      success: true,
+      message: "Collaborator restored successfully",
+      collaborator,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "An error occurred while restoring the collaborator.",
+    };
+  }
 }

@@ -1,29 +1,15 @@
 "use server";
 import { db } from "@/server/db/db";
-import { z } from "zod";
 import bcrypt from "bcrypt";
 import getServerSession from "@/server/getServerSession";
 
-const signupSchema = z.object({
-  name: z.string().min(3, "Name must be at least 3 characters").default(""),
-  email: z.string().email("Email is invalid").default(""),
-  password: z
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .default(""),
-  address: z
-    .string()
-    .min(3, "Address must be at least 3 characters")
-    .default(""),
-  phoneNumber: z
-    .string()
-    .min(11, "Phone number must be at least 11 characters")
-    .default(""),
-});
+import { SignupFormData, signupSchema, ZodError } from "@/validators/index";
 
 export async function getCurrUser() {
   try {
     const session = await getServerSession();
+
+    console.log("session", session);
 
     if (!session?.user?.email) {
       return {
@@ -56,7 +42,8 @@ export async function registerUser({
   password,
   address,
   phoneNumber,
-}: z.infer<typeof signupSchema>) {
+  role,
+}: SignupFormData) {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -85,7 +72,7 @@ export async function registerUser({
       user,
     };
   } catch (error) {
-    if (error instanceof z.ZodError) {
+    if (error instanceof ZodError) {
       return {
         success: false,
         message: error.errors[0]?.message,
@@ -98,7 +85,6 @@ export async function registerUser({
     };
   }
 }
-
 
 export async function getUserById(id: string) {
   try {
