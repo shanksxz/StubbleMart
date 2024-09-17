@@ -7,7 +7,7 @@ import { navlinks } from 'src/utils'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { signOut, useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import { motion } from 'framer-motion'
 
 export default function Navbar() {
@@ -25,11 +25,11 @@ export default function Navbar() {
     return (
         <header className="bg-white font-raleway py-4 md:px-20 px-4 text-white">
             <nav className="flex justify-between items-center bg-white">
-                <div className=' relative w-[150px] h-[50px]'>
-                    <Image src={"/svg/newlogo.svg"} alt='logo'  fill objectFit='cover'></Image>
+                <div className=' relative w-[100px] h-[50px]'>
+                    <Image src={"/svg/logo.svg"} alt='logo' fill objectFit='cover'></Image>
                 </div>
                 <div className="hidden md:flex items-center space-x-4 w-[55%]">
-                    <ul className='font-medium w-full flex justify-between '>
+                    <ul className='font-semibold w-full flex justify-between '>
                         {navlinks.map(link => (
                             <motion.li initial={"close"} whileHover={"open"} className='flex flex-col gap-1 max-w-fit overflow-hidden text-black relative'>
                                 <Link href={link.url}>{link.name}</Link>
@@ -45,28 +45,24 @@ export default function Navbar() {
                             Login
                         </Button>
                     }
-                    {
-                        session.data?.user?.email &&
-                        <Button className="bg-primary-green px-6 text-white hover:bg-white hover:text-black font-semibold" onClick={() => signOut()}>
-                            Logout
-                        </Button>
-                    }
                     <Button className="border px-6 border-primary-green bg-transparent hover:bg-primary-green hover:text-white text-primary-green">
                         Contact
                     </Button>
                 </div>
                 <button className="md:hidden" onClick={toggleMenu}>
-                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                    {isMenuOpen ? <X color='black' size={24} /> : <Menu color='black' size={24} />}
                 </button>
             </nav>
             {isMenuOpen && (
                 <div className="md:hidden mt-4">
-                    <ul className='font-normal flex flex-col gap-4'>
-                        <li>Home</li>
-                        <li>About</li>
-                        <li>Services</li>
-                        <li>Collaborate</li>
-                        <li>News</li>
+                    <ul className='font-semibold flex flex-col gap-4 '>
+                        {navlinks.map(link => (
+                            <motion.li initial={"close"} whileHover={"open"} className='flex flex-col gap-1 max-w-fit overflow-hidden text-black font-medium relative'>
+                                <Link href={link.url}>{link.name}</Link>
+                                <motion.div variants={settings} className='w-full bg-primary-green h-[2px] absolute bottom-0 mt-6'></motion.div>
+                            </motion.li>
+
+                        ))}
                     </ul>
                     <div className="flex flex-col gap-4 mt-4">
                         {!session.data?.user?.email &&
