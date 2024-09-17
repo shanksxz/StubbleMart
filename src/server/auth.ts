@@ -9,6 +9,7 @@ import { z, ZodError } from "zod";
 import bcrypt from "bcrypt";
 import { Prisma } from "@prisma/client";
 import prisma from "./db/db"
+import { env } from "@/env";
 
 
 const loginSchema = z.object({
@@ -33,10 +34,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
     adapter,
     providers: [
       GoogleProvider({
-        clientId: process.env.GOOGLE_ID!,
-        clientSecret: process.env.GOOGLE_SECRET!,
+        id: "google",
+        clientId: env.GOOGLE_CLIENT_ID,
+        clientSecret: env.GOOGLE_CLIENT_SECRET,
       }),
       CredentialsProvider({
+        id: "credentials",
         credentials: {
           email: { label: "email", type: "text" },
           password: { label: "Password", type: "password" },
@@ -97,7 +100,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
       }),
     ],
 
-    secret: process.env.NEXTAUTH_SECRET!,
+    secret: env.NEXTAUTH_SECRET,
 
     callbacks: {
       async jwt({ token, user, account }) {

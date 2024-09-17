@@ -18,6 +18,7 @@ import { placeOrder } from '@/actions/order'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import Image from 'next/image'
+import { Spinner } from '@nextui-org/spinner'
 
 interface StubbleProduct {
   id: string;
@@ -99,7 +100,13 @@ export default function ProductDetails() {
     }
   }
 
-  if (!product) return <div>Loading...</div>
+  if (!product) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner color='success' />
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen font-raleway py-4 px-4 sm:px-6 lg:px-8">
