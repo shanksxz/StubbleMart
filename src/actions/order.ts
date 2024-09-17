@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/server/db/db";
+import prisma from "@/server/db/db";
 import { OrderData, orderSchema, ZodError } from "src/validators";
 import { getCurrUser } from "./user";
 
@@ -8,34 +8,30 @@ export async function placeOrder(foo: OrderData) {
     
     try {
 
-        const foo = await getCurrUser();
+        const res = await getCurrUser();
 
-        if(!foo.success) {
+        if(!res.success || !res.user) {
             return {
                 success: false,
-                message: foo.message,
+                message: res.message,
                 statusCode: 404,
             };
         }
 
         const {
-            userEmail,
-            productId,
             state,
             city,
             landSize,
             serviceType,
         } = orderSchema.parse(foo);
 
-        const order = await db.order.create({
+        const order = await prisma.order.create({
             data : {
                 city,
                 landSize,
-                productId,
                 serviceType,
                 state,
-                userEmail,
-                userId : foo.user?.id as string,
+                userId : res.user.id,
             }
         });
 
@@ -77,7 +73,7 @@ export async function delOrder(id: string) {
 
         const foo = await getCurrUser();
 
-        if(!foo.success) {
+        if(!foo.success || !foo.user) {
             return {
                 success: false,
                 message: foo.message,
@@ -85,7 +81,7 @@ export async function delOrder(id: string) {
             };
         }
 
-        const order = await db.order.delete({
+        const order = await prisma.order.delete({
             where: {
                 id,
             },

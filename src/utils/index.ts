@@ -2,8 +2,9 @@ export const navlinks = [
     { id: 1, name: "Home", url: "/" },
     { id: 2, name: "About", url: "/about" },
     { id: 3, name: "Services", url: "/services" },
-    { id: 4, name: "Collaborate", url: "/collaborator" },
-    { id: 5, name: "News", url: "/news" }
+    { id: 4, name: "Products", url: "/products" },
+    { id: 5, name: "Collaborate", url: "/collaborator" },
+    { id: 6, name: "News", url: "/news" }
 ]
 
 export const details = [

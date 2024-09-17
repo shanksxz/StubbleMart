@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/server/db/db";
+import prisma from "@/server/db/db";
 import { FormData, ZodError } from "@/validators";
 import { getCurrUser } from "./user";
 import { CollaborationType } from "@prisma/client";
@@ -13,7 +13,9 @@ export default async function addCollaborators(foo: FormData) {
   try {
     const res = await getCurrUser();
 
-    if (!res.success) {
+    console.log("res", res);
+
+    if (!res.success || !res.user) {
       return {
         success: false,
         message: res.message,
@@ -21,7 +23,7 @@ export default async function addCollaborators(foo: FormData) {
       };
     }
 
-    const collaborater = await db.collaborationPartner.create({
+    const collaborater = await prisma.collaborationPartner.create({
       data: {
         name: foo.name,
         email: foo.email,
@@ -38,7 +40,7 @@ export default async function addCollaborators(foo: FormData) {
           ],
         },
         companyName: foo.companyName,
-        userId: res.user?.id as string,
+        userId: res.user.id,
       },
     });
 
@@ -68,7 +70,7 @@ export async function getCollaboratorsByCategory({
   category: CollaborationType;
 }) {
   try {
-    const collaborators = await db.collaborationPartner.findMany({
+    const collaborators = await prisma.collaborationPartner.findMany({
       where: {
         collaborationType: category,
       },
@@ -102,7 +104,7 @@ export async function approveCollaborator({ id }: { id: string }) {
       };
     }
 
-    const collaborator = await db.collaborationPartner.update({
+    const collaborator = await prisma.collaborationPartner.update({
       where: {
         id,
       },
@@ -134,7 +136,7 @@ export async function delCollaborator({ id }: { id: string }) {
     //     }
     // });
 
-    const collaborator = await db.collaborationPartner.update({
+    const collaborator = await prisma.collaborationPartner.update({
       where: {
         id,
       },
@@ -166,7 +168,7 @@ export async function delCollaborator({ id }: { id: string }) {
 
 export async function getDeletedCollaborators() {
   try {
-    const collaborators = await db.collaborationPartner.findMany({
+    const collaborators = await prisma.collaborationPartner.findMany({
       where: {
         isDeleted: true,
       },
@@ -188,7 +190,7 @@ export async function getDeletedCollaborators() {
 
 export async function restoreCollaborator({ id }: { id: string }) {
   try {
-    const collaborator = await db.collaborationPartner.update({
+    const collaborator = await prisma.collaborationPartner.update({
       where: {
         id,
       },
@@ -215,5 +217,17 @@ export async function restoreCollaborator({ id }: { id: string }) {
       success: false,
       message: "An error occurred while restoring the collaborator.",
     };
+  }
+}
+
+export async function permanentlyDeleteCollaborator({ id }: { id: string }) {
+  try {
+    await prisma.collaborationPartner.delete({
+      where: { id },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('Error permanently deleting collaborator:', error);
+    return { success: false, error: 'Failed to permanently delete collaborator' };
   }
 }

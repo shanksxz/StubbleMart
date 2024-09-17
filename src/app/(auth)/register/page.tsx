@@ -11,10 +11,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { registerUser } from '@/actions/user'
 import { toast } from 'sonner'
 import { signupSchema,  SignupFormData} from '@/validators/index'
+import { useRouter } from 'next/navigation'
 
 
 
 export default function SignupPage() {
+
+    const router = useRouter()
+
     const { control, handleSubmit, formState: { errors } } = useForm<SignupFormData>({
         resolver: zodResolver(signupSchema),
         defaultValues: {
@@ -32,6 +36,8 @@ export default function SignupPage() {
 
             if (res.success) {
                 toast.success(res.message)
+                await new Promise(resolve => setTimeout(resolve, 3000))
+                router.push('/login')
                 console.log(res.user)
             }
         } catch (error) {
@@ -181,7 +187,30 @@ export default function SignupPage() {
                     </p>
                 </div>
             </motion.div>
-            {/* The rest of your component remains unchanged */}
+            <motion.div
+                className="md:w-1/2 p-8 text-white relative overflow-hidden order-1 md:order-2"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+            >
+                <div className="absolute inset-0 bg-[url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/AdobeStock_104214660-scaled%201-OClypndJeioXPbmxpouyTAX2U4bPty.png')] bg-cover bg-center"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-green-600/80 to-green-800/80"></div>
+                <div className="absolute inset-0 backdrop-blur-[2px]"></div>
+                <div className="relative z-20 h-full flex flex-col justify-between">
+                    <img src="/placeholder.svg?height=50&width=200" alt="Stubble Mart Logo" className="mb-8" />
+                    <div>
+                        <h1 className="text-5xl font-bold mb-4 drop-shadow-md">
+                            Create New Account
+                        </h1>
+                        <p className="mb-8 text-xl text-green-100 drop-shadow">
+                            Join Stubble Mart today and revolutionize your farming experience with our cutting-edge solutions.
+                        </p>
+                    </div>
+                    <div className="text-sm text-green-100 mt-8 drop-shadow">
+                        © 2023 Stubble Mart. All rights reserved.
+                    </div>
+                </div>
+            </motion.div>
         </div>
     )
 }

@@ -3,18 +3,24 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail } from 'lucide-react'
-import { Button } from "src/components/ui/button"
-import { Input } from "src/components/ui/input"
-import { Label } from "src/components/ui/label"
-import { Separator } from "src/components/ui/separator"
-import { signIn } from 'next-auth/react'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
+import { signIn, useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function LoginPage() {
+    const { status } = useSession()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const router = useRouter()
+
+    if(status === 'authenticated') {
+        router.push('/')
+    }
 
     const handleLogin = async ({
         method,
@@ -26,21 +32,26 @@ export default function LoginPage() {
         password?: string
     }) => {
         try {
-            const res = await signIn(method, {
-                redirect: false,
-                email,
-                password
-            })
-
-            console.log(res)
-
-            if (res?.ok) {
+            let res;
+            switch (method) {
+                case 'google':
+                    res = await signIn('google');
+                    break
+                case 'credentials':
+                    res = await signIn('credentials', {
+                        email,
+                        password,
+                        redirect: false
+                    })
+                    break
+                
+            }
+            if (res && res.ok) {
                 toast.success('Logged in successfully')
                 await new Promise(resolve => setTimeout(resolve, 3000))
                 router.push('/')
-            } else {
-                toast.error('Login failed. Please check your credentials.')
             }
+            return toast.error(res?.error || 'An error occurred. Please try again.') 
         } catch (error) {
             toast.error('An error occurred. Please try again.')
             console.error(error)
@@ -125,10 +136,13 @@ export default function LoginPage() {
                         </Button>
                     </form>
 
-                    <div className="mt-6 text-center">
-                        <p className="text-sm text-gray-600">
-                            <a href="#" className="text-green-600 hover:underline">Forgot your password?</a>
-                        </p>
+                    <div className="mt-6 text-center space-y-4">
+                        <div className="text-sm text-gray-600">
+                            Don't have an account?{' '}
+                            <Link href="/register" className="text-green-600 hover:underline font-semibold">
+                                Register here
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </motion.div>

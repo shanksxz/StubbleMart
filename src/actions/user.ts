@@ -1,13 +1,13 @@
 "use server";
-import { db } from "@/server/db/db";
+import prisma from "@/server/db/db";
 import bcrypt from "bcrypt";
-import getServerSession from "@/server/getServerSession";
 
 import { SignupFormData, signupSchema, ZodError } from "@/validators/index";
+import { auth } from "@/server/auth";
 
 export async function getCurrUser() {
   try {
-    const session = await getServerSession();
+    const session = await auth();
 
     console.log("session", session);
 
@@ -18,11 +18,13 @@ export async function getCurrUser() {
       };
     }
 
-    const user = await db.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email: session.user.email,
       },
     });
+
+    console.log("user", user);
 
     return {
       success: true,
@@ -47,17 +49,18 @@ export async function registerUser({
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await db.user.create({
+    const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
         address,
         phoneNumber,
+        role,
       },
     });
 
-    await db.account.create({
+    await prisma.account.create({
       data: {
         userId: user.id,
         provider: "credentials",
@@ -88,7 +91,7 @@ export async function registerUser({
 
 export async function getUserById(id: string) {
   try {
-    const user = await db.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         id,
       },

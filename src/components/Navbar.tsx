@@ -25,8 +25,8 @@ export default function Navbar() {
     return (
         <header className="bg-white font-raleway py-4 md:px-20 px-4 text-white">
             <nav className="flex justify-between items-center bg-white">
-                <div className=' relative w-[100px] h-[50px]'>
-                    <Image src={"/svg/logo.svg"} alt='logo' fill objectFit='cover'></Image>
+                <div className=' relative w-[150px] h-[50px]'>
+                    <Image src={"/svg/newlogo.svg"} alt='logo'  fill objectFit='cover'></Image>
                 </div>
                 <div className="hidden md:flex items-center space-x-4 w-[55%]">
                     <ul className='font-medium w-full flex justify-between '>

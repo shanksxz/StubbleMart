@@ -43,17 +43,16 @@ import { createProduct, getAllProducts, updateProduct, deleteProduct } from '@/a
 interface ProductData {
   id?: string;
   title: string;
-  price: number;
+  priceRange: string;
   imgUrl: string;
   description: string;
+  createdBy?: string;
 }
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
-  price: z.string().refine((val) => !isNaN(Number(val)), {
-    message: "Price must be a valid number",
-  }),
+  priceRange: z.string().min(1, "Price is required"),
   image: z.string().optional(),
 });
 
@@ -69,7 +68,7 @@ export default function Products() {
     defaultValues: {
       title: "",
       description: "",
-      price: "",
+      priceRange: "",
     },
   })
 
@@ -79,7 +78,7 @@ export default function Products() {
 
   const fetchProducts = async () => {
     const result = await getAllProducts()
-    if (result.success) {
+    if (result.success && result.products) {
       setProducts(result.products!)
     } else {
       toast.error(result.message)
@@ -90,7 +89,7 @@ export default function Products() {
     const productData: ProductData = {
       title: values.title,
       description: values.description,
-      price: parseFloat(values.price),
+      priceRange: values.priceRange,
       imgUrl: values.image || '/placeholder.svg',
     }
 
@@ -100,7 +99,7 @@ export default function Products() {
         id: editingProduct.id!, 
         data: {
           ...productData,
-          price: productData.price,
+          priceRange: productData.priceRange,
         }
       })
     } else {
@@ -123,7 +122,7 @@ export default function Products() {
     form.reset({
       title: product.title,
       description: product.description,
-      price: product.price.toString(),
+      priceRange: product.priceRange,
     })
     setOpen(true)
   }
@@ -191,7 +190,7 @@ export default function Products() {
               />
               <FormField
                 control={form.control}
-                name="price"
+                name="priceRange"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Price</FormLabel>
@@ -252,7 +251,7 @@ export default function Products() {
             <TableRow key={product.id} className="transition-opacity duration-500 ease-in-out">
               <TableCell>{product.title}</TableCell>
               <TableCell>{product.description}</TableCell>
-              <TableCell>{product.price}</TableCell>
+              <TableCell>{product.priceRange}</TableCell>
               <TableCell>
                 <div className="flex space-x-2">
                   <Button variant="outline" size="icon" onClick={() => handleEdit(product)}>

@@ -5,15 +5,16 @@ import { Sidebar } from "@/components/Sidebar"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export default function RootLayout({ children }: {
+
+function RootLayout({ children }: {
   children: React.ReactNode
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
     <html lang="en">
-      <body>
-        <div className="flex h-screen bg-gray-100">
+      <body className='font-raleway'>
+        <div className="flex h-screen bg-gray-100 font-raleway">
           <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
           <div className="flex-1 flex flex-col overflow-hidden">
             <header className="bg-white shadow-sm lg:hidden">
@@ -36,3 +37,5 @@ export default function RootLayout({ children }: {
     </html>
   )
 }
+
+export default RootLayout

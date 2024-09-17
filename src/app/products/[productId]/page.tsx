@@ -1,14 +1,15 @@
+
 'use client'
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { Button } from "src/components/ui/button"
-import { Input } from "src/components/ui/input"
-import { Checkbox } from "src/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "src/components/ui/radio-group"
-import { Label } from "src/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
 import { getProductById } from '@/actions/product'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -16,12 +17,13 @@ import * as z from 'zod'
 import { placeOrder } from '@/actions/order'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
+import Image from 'next/image'
 
 interface StubbleProduct {
   id: string;
   title: string;
   description: string;
-  priceRange: string
+  priceRange: string;
   imgUrl: string;
 }
 
@@ -40,11 +42,12 @@ type FormData = z.infer<typeof formSchema>
 export default function ProductDetails() {
   const params = useParams()
   const [product, setProduct] = useState<StubbleProduct | null>(null)
+  const [relatedProducts, setRelatedProducts] = useState<StubbleProduct[]>([])
   const [error, setError] = useState<string>("")
-  const { data : session } = useSession();
+  const { data: session, status } = useSession()
   const router = useRouter()
 
-  if(!session?.user?.email) {
+  if (status === "unauthenticated") {
     router.push("/login")
   }
 
@@ -63,8 +66,9 @@ export default function ProductDetails() {
     const fetchProduct = async () => {
       try {
         const res = await getProductById({ id: params.productId as string })
-        if(res.success) {
+        if (res.success) {
           setProduct(res.product!)
+          setRelatedProducts(res.relatedProducts || [])
         }
       } catch (error) {
         console.error(error)
@@ -78,7 +82,6 @@ export default function ProductDetails() {
   const onSubmit = async (data: FormData) => {
     try {
       const order = await placeOrder({
-        userEmail: session?.user?.email as string,
         productId: product!.id,
         state: data.state,
         city: data.city,
@@ -86,9 +89,7 @@ export default function ProductDetails() {
         serviceType: data && (data.cuttingServices ? ["cutting"] : []).concat(data.transportationServices ? ["transportation"] : []),
       })
 
-      console.log(order)
-
-      if(order.success) {
+      if (order.success) {
         toast.success(order.message);
         router.push("/products")
       }
@@ -110,7 +111,9 @@ export default function ProductDetails() {
           </Link>
           <div className="flex flex-col md:flex-row md:space-x-6">
             <div className="md:w-1/2 mb-6 md:mb-0">
-              <img
+              <Image
+                width={500}
+                height={500}
                 src={product.imgUrl}
                 alt={product.title}
                 className="w-full h-64 md:h-full object-cover rounded-lg"
@@ -224,6 +227,31 @@ export default function ProductDetails() {
               {error && <p className="text-red-500 mt-4">{error}</p>}
             </div>
           </div>
+
+          {/* Related Products Section */}
+          {relatedProducts.length > 0 && (
+            <div className="mt-12">
+              <h2 className="text-2xl font-semibold mb-4">You May Also Like</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {relatedProducts.map((relatedProduct) => (
+                  <Link href={`/products/${relatedProduct.id}`} key={relatedProduct.id}>
+                    <div className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                      <img
+                        src={relatedProduct.imgUrl}
+                        alt={relatedProduct.title}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="p-4">
+                        <h3 className="font-semibold text-lg mb-2">{relatedProduct.title}</h3>
+                        <p className="text-sm text-gray-600 mb-2">{relatedProduct.description.substring(0, 100)}...</p>
+                        <p className="text-primary-green font-semibold">₹{relatedProduct.priceRange}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

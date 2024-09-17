@@ -1,11 +1,11 @@
 "use server";
 
-import { db } from "@/server/db/db";
+import prisma from "@/server/db/db";
 import { CollaborationType } from "@prisma/client";
 
 export async function getCollaboratorsCountByCategory() {
   try {
-    const collaborators = await db.collaborationPartner.findMany({
+    const collaborators = await prisma.collaborationPartner.findMany({
       select: {
         collaborationType: true,
       },
@@ -35,7 +35,7 @@ export async function getCollaboratorsCountByCategory() {
 
 export async function getUsersWhoOrdered() {
   try {
-    const ordersWithUserDetails = await db.order.findMany({
+    const ordersWithUserDetails = await prisma.order.findMany({
       include: {
         user: {
           select: {
@@ -79,7 +79,8 @@ export async function getUsersWhoOrdered() {
 
 export async function getUserCountWhoOrdered() {
   try {
-    const users = await db.order.findMany({
+    const users = await prisma
+    .order.findMany({
       select: {
         id: true,
       },
@@ -109,7 +110,7 @@ export async function getUserCountWhoOrdered() {
 // multi-level queue for recommendating collaborators ( by default, give priority to the ones with the highest number of orders )
 export async function getCollaboratorsByOrderCount() {
   try {
-    const collaborators = await db.collaborationPartner.findMany({
+    const collaborators = await prisma.collaborationPartner.findMany({
       select: {
         id: true,
         collaborationType: true,
@@ -160,10 +161,11 @@ export async function getRecommendedStubblePurchasingCompanies(): Promise<{
   companies?: CollaboratorWithScore[];
 }> {
   try {
-    const companies = await db.collaborationPartner.findMany({
+    const companies = await prisma.collaborationPartner.findMany({
       where: {
         collaborationType: CollaborationType.STUBBLE_PURCHASING_COMPANY,
-        isApproved: false,
+        // isApproved: false,
+        isActive: true,
       },
       select: {
         id: true,

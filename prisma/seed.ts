@@ -52,59 +52,59 @@ async function main() {
   })
 
   // Seed Products
- const stubbleProducts = await Promise.all(
+  const stubbleProducts = await Promise.all(
     [
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/wheat-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://utfs.io/f/zMgDVmseHqAlvU7Ly3ZfuX0AQOs5azJmeoDZKSdUkR8gqcnN",
         title: "Wheat Stubble",
         description: "Leftover straw and stalks after wheat harvest, useful for animal bedding or biomass.",
         priceRange: "1000-2000",
         createdBy: adminUser.id,
       },
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/rice-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://utfs.io/f/zMgDVmseHqAl9TEPlrJe5o2P4aze6D8NAF3xImHtcbCvyQRU",
         title: "Rice Stubble",
         description: "Residual straw from rice plants, can be used as mulch or for mushroom cultivation.",
         priceRange: "800-2000",
         createdBy: adminUser.id,
       },
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/corn-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://utfs.io/f/zMgDVmseHqAlSBcv431FgvO9dr6pRmbVMBaTCqzxsUKkY2De",
         title: "Corn Stubble",
         description: "Stalks and leaves remaining after corn harvest, commonly used for livestock feed or biofuel.",
         priceRange: "1200-2500",
         createdBy: adminUser.id,
       },
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/soybean-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://utfs.io/f/zMgDVmseHqAlapNUW0yq3dBfbS9TOU5EZpJ2CiomGYhF8RPu",
         title: "Soybean Stubble",
         description: "Plant remnants after soybean harvesting, utilized as green manure or soil cover.",
         priceRange: "1500-2500",
         createdBy: adminUser.id,
       },
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/barley-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://utfs.io/f/zMgDVmseHqAlOklg03DXnmTQxLoDW1l4gz35Sh2UiJ9RMjZ8",
         title: "Barley Stubble",
         description: "The straw left after barley harvest, mainly used for animal bedding or as a low-cost feed option.",
         priceRange: "2000-4500",
         createdBy: adminUser.id,
       },
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sugarcane-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://utfs.io/f/zMgDVmseHqAlFE74x0mD9pjOJulK1ABmrVC6dtGoPz3MRZcY",
         title: "Sugarcane Stubble",
         description: "Residual cane left after sugarcane cutting, used for mulching or generating bioenergy.",
         priceRange: "1500-2800",
         createdBy: adminUser.id,
       },
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sorghum-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://utfs.io/f/zMgDVmseHqAlJ8bBKgTOgylVoXWqT6p2GfiQetdJUnZ84cxz",
         title: "Sorghum Stubble",
         description: "The stalks left behind after sorghum is harvested, often used for fodder or silage.",
         priceRange: "1500-3700",
         createdBy: adminUser.id,
       },
       {
-        imgUrl: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cotton-stubble-HvKxIGqj3ZI8kWVgUlO4cve0ljnBuS.png",
+        imgUrl: "https://utfs.io/f/zMgDVmseHqAlw1hLD6YE3whfCKl9dnJcoVjOu0tmQZ8kDbpe",
         title: "Cotton Stubble",
         description: "Plant remains after cotton harvesting, usually used in composting or as a biomass fuel source.",
         priceRange: "1500-3000",

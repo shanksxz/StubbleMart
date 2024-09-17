@@ -21,8 +21,7 @@ export default function Collaborate() {
 
             </div>
             <div className="relative z-[1] md:translate-y-[15rem] translate-y-[8rem]">
-                <EnhancedCollaborationForm></EnhancedCollaborationForm>
-
+                <EnhancedCollaborationForm />
             </div>
 
         </div>

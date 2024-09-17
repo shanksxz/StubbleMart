@@ -21,7 +21,7 @@ model User {
   sessions            Session[]
   orders              Order[]               
   products            Product[]             
-  collaborationPartner CollaborationPartner?
+  collaborationPartner CollaborationPartner[]
   @@map("users")
 }
 
@@ -107,13 +107,13 @@ model CollaborationPartner {
   collaborationType  CollaborationType
   name               String             
   companyName        String             @map("company_name")
-  email              String             @unique
+  email              String             
   phoneNumber        String?            @map("phone_number")
   companyAddress     String             @map("company_address") @db.Text
   companyDescription String?            @map("company_description") @db.Text
   query              String?            @db.Text
   crops              Crop[]
-  userId             String             @unique
+  userId             String             
   user               User               @relation(fields: [userId], references: [id])
   isApproved         Boolean            @default(false)
   isActive           Boolean            @default(false)

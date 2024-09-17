@@ -5,7 +5,6 @@ import { useForm, useFieldArray, SubmitHandler } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronRight, ChevronLeft, Plus, Trash2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import img from "public/assets/image/image.png";
 import { Button } from "src/components/ui/button"
 import { Input } from "src/components/ui/input"
 import { Label } from "src/components/ui/label"
@@ -14,11 +13,14 @@ import { useSession } from 'next-auth/react';
 import { collaborationOptions, FormData, formSchema, stepTitles } from '@/validators'
 import addCollaborators from '@/actions/collaborator'
 import { toast } from 'sonner'
+import { sendMail } from '@/nodemailer/mail'
+import { useRouter } from 'next/navigation'
 
 
 
 export default function EnhancedCollaborationForm() {
     const { data: sessionData } = useSession();
+    const router = useRouter();
     const [step, setStep] = useState(1)
 
     const form = useForm<FormData>({
@@ -47,7 +49,7 @@ export default function EnhancedCollaborationForm() {
             form.setValue("name", sessionData.user.name!);
             form.setValue("email", sessionData.user.email!);
         }
-    }, [])
+    }, [sessionData])
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
         console.log(data);
@@ -61,9 +63,17 @@ export default function EnhancedCollaborationForm() {
 
         try {
             const res = await addCollaborators(data);
+            console.log(res);
             if (res.success) {
                 toast.success(res.message);
+                await sendMail(
+                    data.email,
+                    "Collaboration Request",
+                    `Hello ${data.name},\n\nThank you for your interest in collaborating with us. We have received your request and will get back to you soon.\n\nBest Regards,\nTeam Stubble`
+                );
                 console.log(res.collaborater);
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                router.push("/");
             }
         } catch (error) {
             toast.error('An error occurred. Please try again.');
@@ -283,31 +293,3 @@ export default function EnhancedCollaborationForm() {
     )
 }
 
-
-
-{/* <div className="relative mb-12">
-        <div className="flex justify-between">
-            {stepTitles.map((title, index) => (
-                <div key={index} className="flex flex-col items-center relative z-10">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                        step > index ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-600'
-                    } mb-2 transition-all duration-300 ease-in-out transform ${
-                        step === index + 1 ? 'scale-110 ring-4 ring-emerald-200' : ''
-                    }`}>
-                        {step > index ? <Check className="w-6 h-6" /> : index + 1}
-                    </div>
-                    <span className={`text-sm font-medium ${
-                        step > index ? 'text-emerald-600' : 'text-gray-600'
-                    } transition-colors duration-300`}>{title}</span>
-                </div>
-            ))}
-        </div>
-        <div className="absolute top-6 left-0 w-full h-1 bg-gray-200">
-            <motion.div
-                className="h-full bg-emerald-600 rounded-full"
-                initial={{ width: '0%' }}
-                animate={{ width: `${((step - 1) / (stepTitles.length - 1)) * 100}%` }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-            />
-        </div>
-    </div> */}

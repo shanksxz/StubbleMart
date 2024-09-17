@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export default function Hero() {
     return (
         <div className="w-full font-raleway relative">
             <div className="w-full absolute z-[2] h-[400px] md:h-[500px] lg:h-[600px]">
-                <Image src="/svg/Rectangle 3.svg" alt="Background shape" fill style={{ objectFit: "cover" }} />
+                <Image src="/svg/Rectangle 3.svg" priority alt="Background shape" fill style={{ objectFit: "cover" }} />
             </div>
             <div className="absolute w-full h-[400px] md:h-[500px] lg:h-[600px]">
                 <Image src="/svg/image.svg" alt="Hero background" fill style={{ objectFit: "cover" }} />
@@ -18,9 +19,11 @@ export default function Hero() {
                 <p className="text-slate-300 text-[15px] sm:text-[25px]">
                     Join the green Revolution by turning agricultural waste into valuable resources for a cleaner, tech-driven future.
                 </p>
-                <Button className="bg-primary-green w-fit" size="lg">
-                    Explore
-                </Button>
+                <Link href={"/products"}>
+                    <Button className="bg-primary-green w-fit" size="lg">
+                        Explore
+                    </Button>
+                </Link>
             </div>
         </div>
     )

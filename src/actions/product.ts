@@ -2,21 +2,29 @@
 
 "use server"
 
-import { db } from "@/server/db/db";
+import prisma from "@/server/db/db";
 import { ProductData, productSchema, ZodError } from "src/validators";
 import { getCurrUser } from "./user";
 
 export async function createProduct(data: ProductData) {
     try {
 
-        const ress = await getCurrUser();
+        const res = await getCurrUser();
+
+        if(!res.success || !res.user) {
+            return {
+                success: false,
+                message: res.message,
+                statusCode: 404,
+            };
+        }
 
         const validatedData = productSchema.parse(data);
 
-        const product = await db.product.create({
+        const product = await prisma.product.create({
             data: {
                 ...validatedData,
-                createdBy: ress.user?.id as string,
+                createdBy: res.user.id
             },
         });
 
@@ -43,7 +51,7 @@ export async function createProduct(data: ProductData) {
 
 export async function getAllProducts() {
     try {
-        const products = await db.product.findMany();
+        const products = await prisma.product.findMany();
         return {
             success: true,
             products,
@@ -56,32 +64,28 @@ export async function getAllProducts() {
     }
 }
 
-export async function getProductById({ id } : {
-    id: string
-}) {
-    try {
+export async function getProductById({ id }: { id: string }) {
+  try {
+    const product = await prisma.product.findUnique({
+      where: { id },
+    });
 
-        const product = await db.product.findUnique({
-            where: { id },
-        });
-
-        if (!product) {
-            return {
-                success: false,
-                message: "Product not found.",
-            };
-        }
-
-        return {
-            success: true,
-            product,
-        };
-    } catch (error) {
-        return {
-            success: false,
-            message: "An error occurred while retrieving the product.",
-        };
+    if (!product) {
+      return { success: false, message: "Product not found" };
     }
+
+    const relatedProducts = await prisma.product.findMany({
+      where: {
+        id: { not: id }, 
+      },
+      take: 3, 
+    });
+
+    return { success: true, product, relatedProducts };
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return { success: false, message: "Failed to fetch product" };
+  }
 }
 
 
@@ -92,7 +96,7 @@ export async function updateProduct({ id, data } : {
     try {
         const validatedData = productSchema.parse(data);
 
-        const product = await db.product.update({
+        const product = await prisma.product.update({
             where: { id },
             data: validatedData,
         });
@@ -121,7 +125,7 @@ export async function deleteProduct({ id } : {
     id: string
 }) {
     try {
-        const product = await db.product.delete({
+        const product = await prisma.product.delete({
             where: { id },
         });
 

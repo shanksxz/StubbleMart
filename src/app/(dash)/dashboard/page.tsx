@@ -10,6 +10,7 @@ import { getCollaboratorsCountByCategory, getUserCountWhoOrdered } from "@/actio
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default function Dashboard() {
+
   const [collaboratorTypes, setCollaboratorTypes] = useState([
     { name: "Stubble purchasing company", count: 0, icon: ShoppingCart, type: "STUBBLE_PURCHASING_COMPANY" },
     { name: "Machine rental", count: 0, icon: Tractor, type: "MACHINE_RENTAL" },

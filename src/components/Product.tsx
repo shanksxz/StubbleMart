@@ -2,6 +2,7 @@ import { Button } from "src/components/ui/button"
 import { ArrowLeft } from 'lucide-react'
 import SearchBar from "./SearchBar";
 import Link from "next/link";
+import Image from "next/image";
 
 interface ProductProps {
     id?: string;
@@ -16,8 +17,11 @@ function StubbleCard({ imgUrl, title, description, priceRange }: ProductProps) {
     return (
         <div className="font-raleway p-2 text-white flex justify-center items-center">
             <div className="bg-white rounded-sm shadow-lg overflow-hidden max-w-sm">
-                <img
+                <Image
                     src={imgUrl}
+                    width={300}
+                    priority
+                    height={200}
                     alt={`${title} image`}
                     className="w-full h-48 object-cover"
                 />

@@ -135,12 +135,6 @@ CREATE UNIQUE INDEX "verificationtokens_token_key" ON "verificationtokens"("toke
 -- CreateIndex
 CREATE UNIQUE INDEX "verificationtokens_identifier_token_key" ON "verificationtokens"("identifier", "token");
 
--- CreateIndex
-CREATE UNIQUE INDEX "collaboration_partners_email_key" ON "collaboration_partners"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "collaboration_partners_userId_key" ON "collaboration_partners"("userId");
-
 -- AddForeignKey
 ALTER TABLE "products" ADD CONSTRAINT "products_createdBy_fkey" FOREIGN KEY ("createdBy") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 

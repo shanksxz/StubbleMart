@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const orderSchema = z.object({
-  userEmail: z.string().email("Email is invalid").default(""),
   productId: z.string(),
   state: z.string().min(3, "State must be at least 3 characters"),
   city: z.string().min(3, "City must be at least 3 characters"),
