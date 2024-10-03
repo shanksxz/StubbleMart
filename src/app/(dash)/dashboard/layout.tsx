@@ -13,7 +13,7 @@ export default function RootLayout({ children }: {
   return (
     <html lang="en">
       <body>
-        <div className="flex h-screen bg-gray-100">
+        <div className="flex h-screen ">
           <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
           <div className="flex-1 flex flex-col overflow-hidden">
             <header className="bg-white shadow-sm lg:hidden">

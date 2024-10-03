@@ -5,12 +5,12 @@ import { OrderData, orderSchema, ZodError } from "src/validators";
 import { getCurrUser } from "./user";
 
 export async function placeOrder(foo: OrderData) {
-    
+
     try {
 
         const foo = await getCurrUser();
 
-        if(!foo.success) {
+        if (!foo.success) {
             return {
                 success: false,
                 message: foo.message,
@@ -28,14 +28,12 @@ export async function placeOrder(foo: OrderData) {
         } = orderSchema.parse(foo);
 
         const order = await db.order.create({
-            data : {
+            data: {
                 city,
                 landSize,
-                productId,
                 serviceType,
                 state,
-                userEmail,
-                userId : foo.user?.id as string,
+                userId: foo.user?.id as string,
             }
         });
 
@@ -54,7 +52,7 @@ export async function placeOrder(foo: OrderData) {
             data: order,
         };
     } catch (error) {
-        if(error instanceof ZodError) {
+        if (error instanceof ZodError) {
             return {
                 success: false,
                 message: error.errors[0]?.message,
@@ -69,7 +67,7 @@ export async function placeOrder(foo: OrderData) {
             message: "Something went wrong. Please try again later.",
             statusCode: 500,
         };
-    }   
+    }
 }
 
 export async function delOrder(id: string) {
@@ -77,7 +75,7 @@ export async function delOrder(id: string) {
 
         const foo = await getCurrUser();
 
-        if(!foo.success) {
+        if (!foo.success) {
             return {
                 success: false,
                 message: foo.message,

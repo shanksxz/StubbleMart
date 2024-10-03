@@ -124,7 +124,7 @@ export default function CollaboratorType({ type, title }: CollaborationPageProps
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">{title}</h1>
-      
+
       {type === 'STUBBLE_PURCHASING_COMPANY' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <Card>
@@ -214,7 +214,7 @@ export default function CollaboratorType({ type, title }: CollaborationPageProps
                     aria-label={`View details for ${partner.companyName}`}
                     className="mr-2"
                   >
-                    <Eye className="h-4 w-4" />
+                    <Eye color='green' className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
@@ -222,7 +222,7 @@ export default function CollaboratorType({ type, title }: CollaborationPageProps
                     onClick={() => handleDelete(partner.id)}
                     aria-label={`Delete ${partner.companyName}`}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 color='red' className="h-4 w-4" />
                   </Button>
                 </TableCell>
               </TableRow>

@@ -59,7 +59,7 @@ export default function LoginPage() {
                 <div className="absolute inset-0 bg-gradient-to-br from-green-600/80 to-green-800/80"></div>
                 <div className="absolute inset-0 backdrop-blur-[2px]"></div>
                 <div className="relative z-20 h-full flex flex-col justify-between">
-                    <img src="/placeholder.svg?height=50&width=200" alt="Stubble Mart Logo" className="mb-8" />
+                    <img src="/svg/newlogo.svg" alt="Stubble Mart Logo" className="mb-8" />
                     <div>
                         <h1 className="text-5xl font-bold mb-4 drop-shadow-md">Welcome Back</h1>
                         <p className="mb-8 text-xl text-green-100 drop-shadow">
@@ -71,7 +71,7 @@ export default function LoginPage() {
                     </div>
                 </div>
             </motion.div>
-            
+
             <motion.div
                 className="md:w-1/2 bg-white p-8 md:p-16 flex items-center justify-center"
                 initial={{ opacity: 0, x: 50 }}
@@ -80,7 +80,7 @@ export default function LoginPage() {
             >
                 <div className="w-full max-w-md">
                     <h2 className="text-3xl font-semibold mb-8 text-green-700">Login</h2>
-                    
+
                     <Button onClick={() => handleLogin({ method: 'google' })} variant="outline" className="w-full mb-4 h-12 text-lg flex items-center justify-center gap-2">
                         Continue with Google
                     </Button>

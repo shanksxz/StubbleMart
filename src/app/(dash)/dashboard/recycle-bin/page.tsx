@@ -4,8 +4,17 @@ import { useState, useEffect } from 'react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { toast } from 'sonner'
-import { getDeletedCollaborators, restoreCollaborator } from '@/actions/collaborator'
+import { getDeletedCollaborators, restoreCollaborator, permanentlyDeleteCollaborator } from '@/actions/collaborator'
 import { $Enums, CollaborationType } from '@prisma/client'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 type DeletedCollaborator = {
   id: string
@@ -17,6 +26,8 @@ type DeletedCollaborator = {
 
 export default function RecycleBin() {
   const [deletedCollaborators, setDeletedCollaborators] = useState<DeletedCollaborator[]>([])
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [collaboratorToDelete, setCollaboratorToDelete] = useState<string | null>(null)
 
   useEffect(() => {
     fetchDeletedCollaborators()
@@ -47,6 +58,24 @@ export default function RecycleBin() {
     }
   }
 
+  const handlePermanentDelete = async () => {
+    if (collaboratorToDelete) {
+      try {
+        const res = await permanentlyDeleteCollaborator({ id: collaboratorToDelete })
+        if (res.success) {
+          setDeletedCollaborators(deletedCollaborators.filter(c => c.id !== collaboratorToDelete))
+          toast.success("Collaborator permanently deleted.")
+        }
+      } catch (error) {
+        console.error(error)
+        toast.error("Failed to permanently delete collaborator.")
+      } finally {
+        setIsDeleteDialogOpen(false)
+        setCollaboratorToDelete(null)
+      }
+    }
+  }
+
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Recycle Bin</h1>
@@ -69,13 +98,39 @@ export default function RecycleBin() {
                 <TableCell>{collaborator.collaborationType}</TableCell>
                 <TableCell>{new Date(collaborator.deletedAt!).toLocaleString()}</TableCell>
                 <TableCell>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleRestore(collaborator.id)}
-                  >
-                    Restore
-                  </Button>
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className=' border-primary-green text-primary-green'
+                      onClick={() => handleRestore(collaborator.id)}
+                    >
+                      Restore
+                    </Button>
+                    <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => setCollaboratorToDelete(collaborator.id)}
+                        >
+                          Delete
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Confirm Permanent Deletion</DialogTitle>
+                          <DialogDescription>
+                            Are you sure you want to permanently delete this collaborator? This action cannot be undone.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                          <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>Cancel</Button>
+                          <Button variant="destructive" onClick={handlePermanentDelete}>Delete</Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}

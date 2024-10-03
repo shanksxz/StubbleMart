@@ -19,7 +19,7 @@ export default function Hero() {
                             </BreadcrumbItem>
                             <BreadcrumbSeparator></BreadcrumbSeparator>
                             <BreadcrumbItem className="text-white font-semibold text-[24px]">
-                                <BreadcrumbLink href="/services">Services</BreadcrumbLink>
+                                <BreadcrumbLink href="/services" className=" hover:text-primary-green">Services</BreadcrumbLink>
                             </BreadcrumbItem>
                         </BreadcrumbList>
 

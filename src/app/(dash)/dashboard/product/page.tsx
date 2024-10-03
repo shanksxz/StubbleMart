@@ -97,7 +97,7 @@ export default function Products() {
     let result
     if (editingProduct) {
       result = await updateProduct({
-        id: editingProduct.id!, 
+        id: editingProduct.id!,
         data: {
           ...productData,
           price: productData.price,
@@ -260,7 +260,7 @@ export default function Products() {
                     <span className="sr-only">Edit</span>
                   </Button>
                   <Button variant="outline" size="icon" onClick={() => handleDeleteConfirm(product)}>
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 color="red" className="h-4 w-4" />
                     <span className="sr-only">Delete</span>
                   </Button>
                 </div>

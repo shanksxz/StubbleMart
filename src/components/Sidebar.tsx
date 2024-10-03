@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { BarChart3, ShoppingCart, Tractor, Truck, Store, Users, Package, User, X, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -6,16 +9,14 @@ export function Sidebar({ open, setOpen }: { open: boolean; setOpen: (open: bool
   return (
     <>
       <div
-        className={`fixed inset-0 z-20 transition-opacity bg-black opacity-50 lg:hidden ${
-          open ? "block" : "hidden"
-        }`}
+        className={`fixed inset-0 z-20 transition-opacity bg-black opacity-50 lg:hidden ${open ? "block" : "hidden"
+          }`}
         onClick={() => setOpen(false)}
       ></div>
 
       <div
-        className={`fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform bg-white lg:translate-x-0 lg:static lg:inset-0 ${
-          open ? "translate-x-0 ease-out" : "-translate-x-full ease-in"
-        }`}
+        className={`fixed inset-y-0 left-0 z-30 w-64 overflow-y-auto transition duration-300 transform bg-white lg:translate-x-0 lg:static lg:inset-0 ${open ? "translate-x-0 ease-out" : "-translate-x-full ease-in"
+          }`}
       >
         <div className="flex items-center justify-between flex-shrink-0 p-4">
           <span className="text-xl font-semibold">StubbleMart</span>
@@ -49,9 +50,16 @@ export function Sidebar({ open, setOpen }: { open: boolean; setOpen: (open: bool
 }
 
 function NavItem({ href, icon: Icon, children }: { href: string; icon: any; children: React.ReactNode }) {
+  const pathname = usePathname()
+  const isActive = pathname === href || (href !== "/dashboard" && pathname.startsWith(href))
+
   return (
-    <Link href={href} className="flex items-center px-6 py-2 text-gray-700 hover:bg-gray-100">
-      <Icon className="h-5 w-5 mr-3" />
+    <Link
+      href={href}
+      className={`flex items-center px-6 py-2 text-gray-700 hover:bg-gray-100 ${isActive ? 'bg-gray-100 text-primary font-medium' : ''
+        }`}
+    >
+      <Icon className={`h-5 w-5 mr-3 ${isActive ? 'text-primary' : ''}`} />
       {children}
     </Link>
   )

@@ -14,12 +14,28 @@ import { useSession } from 'next-auth/react';
 import { collaborationOptions, FormData, formSchema, stepTitles } from '@/validators'
 import addCollaborators from '@/actions/collaborator'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+import { send } from 'process'
+import { sendMail } from '@/nodemailer/sendMail'
 
 
+type Mail = {
+    companyName: string,
+    email: string
+}
 
 export default function EnhancedCollaborationForm() {
-    const { data: sessionData } = useSession();
-    const [step, setStep] = useState(1)
+    const { data: sessionData, status } = useSession();
+    const router = useRouter();
+    const [step, setStep] = useState(1);
+
+
+    if (status === "unauthenticated") {
+        console.log("Unauthenticated")
+        router.push("/login")
+    }
+
+    // console.log(sessionData);
 
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
@@ -47,7 +63,7 @@ export default function EnhancedCollaborationForm() {
             form.setValue("name", sessionData.user.name!);
             form.setValue("email", sessionData.user.email!);
         }
-    }, [])
+    }, [sessionData])
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
         console.log(data);
@@ -61,9 +77,16 @@ export default function EnhancedCollaborationForm() {
 
         try {
             const res = await addCollaborators(data);
+            console.log("done")
+
             if (res.success) {
+                console.log("done")
                 toast.success(res.message);
                 console.log(res.collaborater);
+                const mailContent = { companyName: res.collaborater?.companyName, email: res.collaborater?.email }
+                sendMail(mailContent as Mail)
+                console.log("mail sent")
+
             }
         } catch (error) {
             toast.error('An error occurred. Please try again.');

@@ -181,6 +181,8 @@ export async function getRecommendedStubblePurchasingCompanies(): Promise<{
       },
     });
 
+    console.log(companies);
+
     const scoredCompanies: CollaboratorWithScore[] = companies.map(company => {
       const avgPriceRange = company.crops.reduce((sum, crop) => {
         const [min, max] = crop.priceRange.split('-').map(Number);
@@ -194,7 +196,7 @@ export async function getRecommendedStubblePurchasingCompanies(): Promise<{
       };
     });
 
-    const sortedCompanies = scoredCompanies.sort((a, b) => 
+    const sortedCompanies = scoredCompanies.sort((a, b) =>
       a.priceCompetitiveness - b.priceCompetitiveness
     );
 

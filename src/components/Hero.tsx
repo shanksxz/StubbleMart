@@ -12,7 +12,7 @@ export default function Hero() {
             </div>
 
             <div className="relative z-10 flex pt-[40px] sm:pt-0 flex-col w-[80%] lg:w-[60%] xl:w-[50%] px-8 sm:px-6 md:px-8 lg:px-20 justify-center min-h-[300px] sm:min-h-[400px] md:min-h-[500px] lg:min-h-[600px] gap-4">
-                <h1 className="font-bold text-white text-2xl sm:text-4xl md:text-5xl lg:text-[50px] leading-tight">
+                <h1 className="font-bold text-white w-full text-[25px] sm:text-4xl md:text-5xl lg:text-[50px] leading-tight">
                     Transforming <span className="text-primary-green">Stubble</span> into <span className="text-primary-green">Sustainable Solutions</span>
                 </h1>
                 <p className="text-slate-300 text-[15px] sm:text-[25px]">

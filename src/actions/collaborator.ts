@@ -21,6 +21,8 @@ export default async function addCollaborators(foo: FormData) {
       };
     }
 
+    console.log("jbvh", foo);
+
     const collaborater = await db.collaborationPartner.create({
       data: {
         name: foo.name,
@@ -140,6 +142,7 @@ export async function delCollaborator({ id }: { id: string }) {
       },
       data: {
         isDeleted: true,
+        isApproved: false,
         deletedAt: new Date(),
       },
       select: {
@@ -194,6 +197,7 @@ export async function restoreCollaborator({ id }: { id: string }) {
       },
       data: {
         isDeleted: false,
+        isApproved: false,
         deletedAt: null,
       },
       select: {
@@ -215,5 +219,17 @@ export async function restoreCollaborator({ id }: { id: string }) {
       success: false,
       message: "An error occurred while restoring the collaborator.",
     };
+  }
+}
+
+export async function permanentlyDeleteCollaborator({ id }: { id: string }) {
+  try {
+    await db.collaborationPartner.delete({
+      where: { id },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('Error permanently deleting collaborator:', error);
+    return { success: false, error: 'Failed to permanently delete collaborator' };
   }
 }
