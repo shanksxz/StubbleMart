@@ -13,7 +13,6 @@ export default function About() {
             <Collaborators></Collaborators>
             <Animate></Animate>
             <Points></Points>
-
         </div>
     )
 }
