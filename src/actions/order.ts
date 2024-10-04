@@ -25,6 +25,8 @@ export async function placeOrder(foo: OrderData) {
             serviceType,
         } = orderSchema.parse(foo);
 
+        console.log("Order data: ", foo);
+
         const order = await prisma.order.create({
             data : {
                 city,
@@ -35,7 +37,17 @@ export async function placeOrder(foo: OrderData) {
             }
         });
 
-        if (!order) {
+        const orderItems = await prisma.orderItem.create({
+            data: {
+                orderId: order.id,
+                productId: foo.productId,
+                quantity: 1,
+            }
+        })
+
+        console.log("Order: ", order);
+
+        if (!order || !orderItems) {
             return {
                 success: false,
                 message: "Order could not be placed. Please try again later.",
