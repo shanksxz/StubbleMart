@@ -5,9 +5,9 @@ export default async function Page() {
 
     const products = await getAllProducts();
 
-    if(products.success && products.products) {
+    if (products.success && products.products) {
         return (
-            <Product products={products.products} />
+          <Product products={products.products} />
         )
     }
 
@@ -17,5 +17,4 @@ export default async function Page() {
             <p>There was an error fetching the products</p>
         </div>
     )
-
 }

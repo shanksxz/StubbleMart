@@ -42,12 +42,8 @@ export default function Popular() {
                                 <PopularCards></PopularCards>
                             ))}
                         </Slider>
-
                     </div>
-
                 </div>
-
-
             </div>
         </div>
     )

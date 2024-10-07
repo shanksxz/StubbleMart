@@ -27,8 +27,8 @@ export const popular = [
 ]
 
 export const extra = [
-    { id: 1, name: "Providing Cutting Services & Selling Stubble", img: "/svg/Group 27.svg" },
-    { id: 1, name: "Guidance on Residue Management", img: "/svg/Group 31.svg" },
+    { id: 1, name: "Providing Cutting Services & Selling Stubble", img: "/assets/image/truck-land.png" },
+    { id: 1, name: "Guidance on Residue Management", img: "/assets/image/crops.png" },
 ]
 
 export const progress = [

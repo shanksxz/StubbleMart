@@ -13,8 +13,7 @@ export default function Collaboration() {
 
                 </div>
                 <div className="relative w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] ">
-                    <Image src={"/svg/collaboration.svg"} alt="dfas" fill objectFit="cover"></Image>
-
+                    <Image src="/assets/image/collaboration.png" alt="collaboration-pic" fill objectFit="cover"></Image>
                 </div>
             </div>
         </div>

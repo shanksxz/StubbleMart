@@ -8,7 +8,7 @@ export default function Hero() {
                 <Image src="/svg/Rectangle 3.svg" alt="Background shape" fill style={{ objectFit: "cover" }} />
             </div>
             <div className="absolute w-full h-[400px] md:h-[500px] lg:h-[600px]">
-                <Image src="/svg/image.svg" alt="Hero background" fill style={{ objectFit: "cover" }} />
+                <Image src="/assets/image/hero-1x.png" alt="Hero background" fill style={{ objectFit: "cover" }} />
             </div>
 
             <div className="relative z-10 flex pt-[40px] sm:pt-0 flex-col w-[80%] lg:w-[60%] xl:w-[50%] px-8 sm:px-6 md:px-8 lg:px-20 justify-center min-h-[300px] sm:min-h-[400px] md:min-h-[500px] lg:min-h-[600px] gap-4">

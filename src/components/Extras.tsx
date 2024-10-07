@@ -12,10 +12,8 @@ export default function Extras() {
                             <Image src={item.img} alt={item.name} fill objectFit='contain'></Image>
                         </div>
                         <p className='absolute z-[5] text-center sm:text-start px-5'>{item.name}</p>
-
                     </div>
                 ))}
-
             </div>
         </div>
     )

@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation'
 
 
 
-export default function EnhancedCollaborationForm() {
+export default function CollaboratorForm() {
     const { data: sessionData } = useSession();
     const router = useRouter();
     const [step, setStep] = useState(1)
